@@ -32,21 +32,18 @@ const segurancaLinks = [
     descricao: 'Formulários de diagnóstico e dados comportamentais (DBC).',
     url: '',
     categoria: 'Formulário',
-    tag: 'ANÁLISE'
-  },
-  {
-    titulo: 'TE - Teste de Eficiência Geral',
-    descricao: 'Formulário de Teste de Eficiência Geral.',
-    url: 'https://vale-forms.valeglobal.net/public?id=89tgFjrT8sWB6U7jbAcWYQ%3d%3d&lang=pt-BR&need_auth=false',
-    categoria: 'Formulário',
-    tag: 'QUALIDADE'
-  },
-  {
-    titulo: 'DT - Diagnóstico Técnico Ormec',
-    descricao: 'Formulário de diagnóstico técnico específico Ormec.',
-    url: 'https://vale-forms.valeglobal.net/public?id=v5W%2bBuuTI4HEm9JBbmccmQ%3d%3d&lang=pt-BR&need_auth=false',
-    categoria: 'Formulário',
-    tag: 'TÉCNICO'
+    tag: 'ANÁLISE',
+    expandable: true,
+    subopcoes: [
+      {
+        titulo: 'TE - Teste de Eficiência Geral',
+        url: 'https://vale-forms.valeglobal.net/public?id=89tgFjrT8sWB6U7jbAcWYQ%3d%3d&lang=pt-BR&need_auth=false'
+      },
+      {
+        titulo: 'DT - Diagnóstico Técnico Ormec',
+        url: 'https://vale-forms.valeglobal.net/public?id=v5W%2bBuuTI4HEm9JBbmccmQ%3d%3d&lang=pt-BR&need_auth=false'
+      }
+    ]
   },
   {
     titulo: 'Envio Diário Atuações em Campo',
@@ -82,22 +79,70 @@ function renderSeguranca() {
   const cont = document.getElementById('seguranca-links');
   if (!cont) return;
   cont.innerHTML = '';
-  segurancaLinks.forEach(link => {
+  segurancaLinks.forEach((link, index) => {
     const card = document.createElement('div');
     card.className = 'card';
     card.dataset.search = (link.titulo + ' ' + link.descricao + ' ' + (link.categoria || '') + ' ' + (link.tag || '')).toLowerCase();
-    card.innerHTML = `
-      <h3>${link.titulo} ${link.tag ? `<span class="badge">${link.tag}</span>` : ''}</h3>
-      <p>${link.descricao}</p>
-      <p><strong>Categoria:</strong> ${link.categoria || '—'}</p>
-      <div class="actions">
-        ${link.url
-          ? `<a class="btn-link" href="${link.url}" target="_blank" rel="noopener noreferrer" aria-label="Abrir link: ${link.titulo}">Abrir</a>`
-          : `<span class="btn-link secondary" title="Link não fornecido">Indisponível</span>`
-        }
-      </div>
-    `;
+    
+    if (link.expandable && link.subopcoes) {
+      // Card expansível
+      card.innerHTML = `
+        <h3>${link.titulo} ${link.tag ? `<span class="badge">${link.tag}</span>` : ''}</h3>
+        <p>${link.descricao}</p>
+        <p><strong>Categoria:</strong> ${link.categoria || '—'}</p>
+        <div class="actions">
+          <button class="btn-link expand-btn" data-card-index="${index}" aria-label="Expandir opções">
+            <span class="expand-text">Ver opções</span>
+            <span class="expand-icon">▼</span>
+          </button>
+        </div>
+        <div class="subopcoes" style="display: none;">
+          ${link.subopcoes.map(sub => `
+            <div class="subopcao-item">
+              <strong>${sub.titulo}</strong>
+              <a class="btn-link" href="${sub.url}" target="_blank" rel="noopener noreferrer">Abrir</a>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    } else {
+      // Card normal
+      card.innerHTML = `
+        <h3>${link.titulo} ${link.tag ? `<span class="badge">${link.tag}</span>` : ''}</h3>
+        <p>${link.descricao}</p>
+        <p><strong>Categoria:</strong> ${link.categoria || '—'}</p>
+        <div class="actions">
+          ${link.url
+            ? `<a class="btn-link" href="${link.url}" target="_blank" rel="noopener noreferrer" aria-label="Abrir link: ${link.titulo}">Abrir</a>`
+            : `<span class="btn-link secondary" title="Link não fornecido">Indisponível</span>`
+          }
+        </div>
+      `;
+    }
     cont.appendChild(card);
+  });
+  
+  // Adicionar event listeners para botões de expansão
+  document.querySelectorAll('.expand-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const card = this.closest('.card');
+      const subopcoes = card.querySelector('.subopcoes');
+      const icon = this.querySelector('.expand-icon');
+      const text = this.querySelector('.expand-text');
+      
+      if (subopcoes.style.display === 'none') {
+        subopcoes.style.display = 'block';
+        icon.textContent = '▲';
+        text.textContent = 'Ocultar opções';
+        card.style.minHeight = 'auto';
+      } else {
+        subopcoes.style.display = 'none';
+        icon.textContent = '▼';
+        text.textContent = 'Ver opções';
+        card.style.minHeight = '140px';
+      }
+    });
   });
 }
 
