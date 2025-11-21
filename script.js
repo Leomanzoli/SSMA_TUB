@@ -30,7 +30,6 @@ const segurancaLinks = [
   {
     titulo: 'Lançamento DBC',
     descricao: 'Formulários de diagnóstico e dados comportamentais (DBC).',
-    url: '',
     categoria: 'Formulário',
     tag: 'ANÁLISE',
     expandable: true,
@@ -79,6 +78,7 @@ function renderSeguranca() {
   const cont = document.getElementById('seguranca-links');
   if (!cont) return;
   cont.innerHTML = '';
+  
   segurancaLinks.forEach((link, index) => {
     const card = document.createElement('div');
     card.className = 'card';
