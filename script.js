@@ -21,14 +21,14 @@ tabs.forEach(btn => {
 
 const segurancaLinks = [
   {
-    titulo: 'Lançamento N3 e PTMC',
+    titulo: 'Inspeções e N3',
     descricao: 'Portal IRIS para registro de N3 e Permissão de Trabalho em Manutenção/Contrato.',
     url: 'https://iris.valeglobal.net/login',
     categoria: 'Formulário',
     tag: 'ROTINA'
   },
   {
-    titulo: 'Lançamento DBC',
+    titulo: 'DBC',
     descricao: 'Formulários de diagnóstico e dados comportamentais (DBC).',
     categoria: 'Formulário',
     tag: 'ROTINA',
@@ -45,14 +45,14 @@ const segurancaLinks = [
     ]
   },
   {
-    titulo: 'Envio Diário Atuações em Campo',
+    titulo: 'Planejamento Seguro',
     descricao: 'Formulário para envio das inspeções e atuações realizadas em campo.',
     url: 'https://vale-forms.valeglobal.net/public?id=ga8mPEgjITLWumkbc0fahQ%3D%3D&lang=pt-BR&need_auth=false',
     categoria: 'Relatório',
     tag: 'ROTINA'
   },
   {
-    titulo: 'PROs Atualizados',
+    titulo: 'Procedimentos SDX',
     descricao: 'Diretório dos Procedimentos Operacionais (OneDrive).',
     url: 'https://1drv.ms/f/s!Aqsd28UkGoOpatqHmQRQit8MBpQ?e=A5OF0E',
     categoria: 'Documentação',
@@ -66,7 +66,7 @@ const segurancaLinks = [
     tag: 'ROTINA'
   },
   {
-    titulo: 'VES - Vale E-Safety Portal',
+    titulo: 'VES',
     descricao: 'Acesso ao portal VES para contratados (login).',
     url: 'https://vale.plateau.com/learning/user/portal.do?siteID=VES_FOR_CONTRACTORS&landingPage=login',
     categoria: 'Portal',
