@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Portal SSMA - Limpeza Industrial - Porto de Tubarão</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Portal unificado de links e recursos das áreas de Segurança, Saúde e Meio Ambiente (SSMA) - Limpeza Industrial - Porto de Tubarão." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="branding">
+      <h1>Portal SSMA</h1>
+      <p class="subtitle">Limpeza Industrial - Porto de Tubarão</p>
+    </div>
+    <nav class="main-nav" aria-label="Seções principais">
+      <button class="nav-btn active" data-target="seguranca" aria-controls="seguranca" aria-selected="true">Segurança</button>
+      <button class="nav-btn" data-target="saude" aria-controls="saude" aria-selected="false">Saúde</button>
+      <button class="nav-btn" data-target="meio-ambiente" aria-controls="meio-ambiente" aria-selected="false">Meio Ambiente</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="utilities">
+      <label for="search" class="sr-only">Buscar links</label>
+      <input id="search" type="search" placeholder="Buscar link por nome ou palavra-chave..." aria-label="Buscar link" />
+      <div class="info-box">
+        <strong>Central de Suporte Vale:</strong> <span class="tel">0800 7102 073</span>
+      </div>
+    </section>
+
+    <section id="seguranca" class="tab-panel active" role="tabpanel" aria-labelledby="seguranca-tab">
+      <h2>Segurança</h2>
+      <p class="section-desc">Links operacionais e formulários da rotina de Segurança.</p>
+      <div class="cards" id="seguranca-links"></div>
+    </section>
+
+    <section id="saude" class="tab-panel" role="tabpanel" aria-labelledby="saude-tab">
+      <h2>Saúde</h2>
+      <p class="section-desc">Recursos de saúde ocupacional, monitoramentos e formulários. (Preencher futuramente)</p>
+      <div class="cards" id="saude-links">
+        <div class="empty-hint">
+          <p>Sem links cadastrados ainda. Envie a lista para adicionar.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="meio-ambiente" class="tab-panel" role="tabpanel" aria-labelledby="meio-ambiente-tab">
+      <h2>Meio Ambiente</h2>
+      <p class="section-desc">Ferramentas e fontes de controle ambiental. (Preencher futuramente)</p>
+      <div class="cards" id="meio-ambiente-links">
+        <div class="empty-hint">
+          <p>Sem links cadastrados ainda. Envie a lista para adicionar.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>&copy; <span id="year"></span> SSMA - Limpeza Industrial - Porto de Tubarão. Portal interno de referência.</p>
+    <p class="small">Desenvolvido para otimizar acesso rápido a recursos críticos de Segurança, Saúde e Meio Ambiente.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
