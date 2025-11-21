@@ -148,6 +148,29 @@ function renderSeguranca() {
 
 renderSeguranca();
 
+// Filtro por tags
+const filterTags = document.querySelectorAll('.filter-tag');
+filterTags.forEach(btn => {
+  btn.addEventListener('click', function() {
+    // Remove active de todos
+    filterTags.forEach(b => b.classList.remove('active'));
+    // Adiciona active no clicado
+    this.classList.add('active');
+    
+    const tag = this.dataset.tag;
+    const cards = document.querySelectorAll('#seguranca-links .card');
+    
+    cards.forEach(card => {
+      if (tag === 'all') {
+        card.style.display = 'flex';
+      } else {
+        const cardTag = card.querySelector('.badge')?.textContent || '';
+        card.style.display = cardTag === tag ? 'flex' : 'none';
+      }
+    });
+  });
+});
+
 function filterCards(query) {
   const q = query.toLowerCase();
   document.querySelectorAll('.tab-panel.active .card').forEach(card => {

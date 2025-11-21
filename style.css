@@ -134,6 +134,41 @@ main {
   color: #47536a;
 }
 
+.filter-tags {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1.3rem;
+  flex-wrap: wrap;
+}
+
+.filter-tag {
+  background: #fff;
+  border: 2px solid var(--border);
+  color: var(--text);
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .25s;
+}
+
+.filter-tag:hover {
+  border-color: var(--primary);
+  background: rgba(var(--primary-rgb), 0.05);
+}
+
+.filter-tag.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.filter-tag:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
 .cards {
   display: grid;
   gap: 1rem;
