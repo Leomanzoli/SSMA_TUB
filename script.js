@@ -89,7 +89,6 @@ function renderSeguranca() {
       card.innerHTML = `
         <h3>${link.titulo} ${link.tag ? `<span class="badge">${link.tag}</span>` : ''}</h3>
         <p>${link.descricao}</p>
-        <p><strong>Categoria:</strong> ${link.categoria || '—'}</p>
         <div class="actions">
           <button class="btn-link expand-btn" data-card-index="${index}" aria-label="Expandir opções">
             <span class="expand-text">Ver opções</span>
@@ -110,7 +109,6 @@ function renderSeguranca() {
       card.innerHTML = `
         <h3>${link.titulo} ${link.tag ? `<span class="badge">${link.tag}</span>` : ''}</h3>
         <p>${link.descricao}</p>
-        <p><strong>Categoria:</strong> ${link.categoria || '—'}</p>
         <div class="actions">
           ${link.url
             ? `<a class="btn-link" href="${link.url}" target="_blank" rel="noopener noreferrer" aria-label="Abrir link: ${link.titulo}">Abrir</a>`
