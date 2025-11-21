@@ -25,13 +25,13 @@ const segurancaLinks = [
     descricao: 'Portal IRIS para registro de N3 e Permissão de Trabalho em Manutenção/Contrato.',
     url: 'https://iris.valeglobal.net/login',
     categoria: 'Formulário',
-    tag: 'OPERACIONAL'
+    tag: 'ROTINA'
   },
   {
     titulo: 'Lançamento DBC',
     descricao: 'Formulários de diagnóstico e dados comportamentais (DBC).',
     categoria: 'Formulário',
-    tag: 'ANÁLISE',
+    tag: 'ROTINA',
     expandable: true,
     subopcoes: [
       {
@@ -63,14 +63,14 @@ const segurancaLinks = [
     descricao: 'Aplicativo PowerApps para geração/impressão das ARTs.',
     url: 'https://apps.powerapps.com/play/e/default-7893571b-6c2c-4cef-b4da-7d4b266a0626/a/4bd955ac-07d9-4ebd-a722-6c1e3260f758?tenantId=7893571b-6c2c-4cef-b4da-7d4b266a0626&sourcetime=1724266343911&source=portal',
     categoria: 'Aplicativo',
-    tag: 'REGISTRO'
+    tag: 'ROTINA'
   },
   {
     titulo: 'VES - Vale E-Safety Portal',
     descricao: 'Acesso ao portal VES para contratados (login).',
     url: 'https://vale.plateau.com/learning/user/portal.do?siteID=VES_FOR_CONTRACTORS&landingPage=login',
     categoria: 'Portal',
-    tag: 'TREINAMENTO'
+    tag: 'TREINAMENTOS'
   }
 ];
 
