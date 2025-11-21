@@ -113,7 +113,9 @@ main {
   align-items: center;
 }
 
-.tel { font-weight: 600; color: var(--accent); }
+.tel { font-weight: 600; color: var(--accent); text-decoration: none; }
+
+.tel:hover { text-decoration: underline; }
 
 .tab-panel {
   display: none;
