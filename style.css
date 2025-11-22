@@ -152,47 +152,6 @@ main {
   margin-bottom: 1.5rem;
 }
 
-/* Seção de Calendário */
-.calendar-section {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: var(--panel);
-  border-radius: 12px;
-  border: 2px solid var(--primary);
-}
-
-.calendar-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 2rem;
-  background: var(--primary);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
-}
-
-.calendar-btn:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.4);
-}
-
-.calendar-btn:active {
-  transform: translateY(0);
-}
-
-.calendar-btn svg {
-  flex-shrink: 0;
-}
-
 .utilities {
   display: flex;
   flex-direction: column;
@@ -232,10 +191,52 @@ main {
 .support-info {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
   margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 2px solid var(--border);
+  padding: 1.5rem;
+  background: var(--panel);
+  border-radius: 12px;
+  border-top: 3px solid var(--primary);
+  align-items: center;
+}
+
+.calendar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 0.5rem;
+}
+
+.calendar-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.4);
+}
+
+.calendar-btn:active {
+  transform: translateY(0);
+}
+
+.calendar-btn svg {
+  flex-shrink: 0;
+}
+
+.info-box {
+  text-align: center;
+  font-size: 0.95rem;
 }
 
 .tel { font-weight: 600; color: var(--accent); text-decoration: none; }
