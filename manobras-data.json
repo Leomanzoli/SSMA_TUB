@@ -1,5 +1,5 @@
 {
-  "ultima_atualizacao": "2025-11-22T15:53:59.992170-03:00",
+  "ultima_atualizacao": "2025-11-22T16:17:35.448446-03:00",
   "total": 8,
   "manobras": [
     {
@@ -21,7 +21,7 @@
     {
       "nome": "YUAN BAO HAI",
       "data": "24/11/2025",
-      "hora": "07:00",
+      "hora": "00:51",
       "manobra": "SAIDA",
       "berco": "TUBP02",
       "situacao": "PREVISTA"
