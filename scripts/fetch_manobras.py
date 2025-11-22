@@ -37,11 +37,52 @@ def fetch_manobras_data():
         soup = BeautifulSoup(response.content, 'html.parser')
         
         # Find the table with maneuvers data
-        # This is a placeholder - actual selectors need to be adjusted based on the real HTML structure
-        table = soup.find('table')
+        # Try multiple selectors to find the correct table
+        table = soup.find('table', class_='manobras') or soup.find('table', id='manobras')
         
         if not table:
-            print("Warning: No table found on the page")
+            # Fallback: find any table that looks like maneuvers table
+            tables = soup.find_all('table')
+            for t in tables:
+                headers = t.find_all('th')
+                if headers and any('berço' in h.get_text().lower() for h in headers):
+                    table = t
+                    break
+        
+        if not table:
+            print("Warning: No maneuvers table found on the page")
+            return []
+        
+        # Get header row to map column names to indices
+        header_row = table.find('tr')
+        if not header_row:
+            print("Warning: No header row found in table")
+            return []
+        
+        headers = [th.get_text(strip=True).lower() for th in header_row.find_all(['th', 'td'])]
+        
+        # Map expected column names to their indices
+        column_map = {}
+        for i, header in enumerate(headers):
+            if 'nome' in header or 'navio' in header:
+                column_map['nome'] = i
+            elif 'data' in header:
+                column_map['data'] = i
+            elif 'hora' in header:
+                column_map['hora'] = i
+            elif 'manobra' in header:
+                column_map['manobra'] = i
+            elif 'berço' in header or 'berco' in header:
+                column_map['berco'] = i
+            elif 'situação' in header or 'situacao' in header or 'status' in header:
+                column_map['situacao'] = i
+        
+        # Validate we have all required columns
+        required_columns = ['nome', 'data', 'hora', 'manobra', 'berco', 'situacao']
+        missing_columns = [col for col in required_columns if col not in column_map]
+        if missing_columns:
+            print(f"Warning: Missing required columns: {missing_columns}")
+            print(f"Available columns: {headers}")
             return []
         
         manobras = []
@@ -49,23 +90,26 @@ def fetch_manobras_data():
         
         for row in rows:
             cols = row.find_all(['td', 'th'])
-            if len(cols) < 6:
+            if len(cols) < max(column_map.values()) + 1:
                 continue
             
-            # Extract data from columns
-            # Adjust indices based on actual table structure
-            manobra = {
-                "nome": cols[0].get_text(strip=True),
-                "data": cols[1].get_text(strip=True),
-                "hora": cols[2].get_text(strip=True),
-                "manobra": cols[3].get_text(strip=True),
-                "berco": cols[4].get_text(strip=True),
-                "situacao": cols[5].get_text(strip=True)
-            }
-            
-            # Filter by berth
-            if manobra["berco"] in FILTERED_BERCOS:
-                manobras.append(manobra)
+            try:
+                # Extract data using column map
+                manobra = {
+                    "nome": cols[column_map['nome']].get_text(strip=True),
+                    "data": cols[column_map['data']].get_text(strip=True),
+                    "hora": cols[column_map['hora']].get_text(strip=True),
+                    "manobra": cols[column_map['manobra']].get_text(strip=True),
+                    "berco": cols[column_map['berco']].get_text(strip=True),
+                    "situacao": cols[column_map['situacao']].get_text(strip=True)
+                }
+                
+                # Filter by berth
+                if manobra["berco"] in FILTERED_BERCOS:
+                    manobras.append(manobra)
+            except (IndexError, KeyError) as e:
+                print(f"Warning: Error parsing row: {e}")
+                continue
         
         return manobras
         
@@ -74,6 +118,8 @@ def fetch_manobras_data():
         return []
     except Exception as e:
         print(f"Error parsing data: {e}", file=sys.stderr)
+        import traceback
+        traceback.print_exc()
         return []
 
 def save_to_json(manobras):

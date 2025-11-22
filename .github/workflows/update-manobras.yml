@@ -2,7 +2,9 @@ name: Update Manobras Data
 
 on:
   schedule:
-    # Run every 15 minutes
+    # Run every 15 minutes to provide near real-time updates
+    # Note: Adjust this interval based on actual requirements and rate limits
+    # Consider hourly (0 * * * *) or every 30 minutes (*/30 * * * *) if less frequent updates are acceptable
     - cron: '*/15 * * * *'
   workflow_dispatch: # Allow manual trigger
 
