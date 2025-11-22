@@ -54,9 +54,44 @@ const segurancaLinks = [
   {
     titulo: 'Procedimentos SDX',
     descricao: 'Diretório dos Procedimentos Operacionais (OneDrive).',
-    url: 'https://1drv.ms/f/s!Aqsd28UkGoOpatqHmQRQit8MBpQ?e=A5OF0E',
+    url: 'https://sodexo.sharepoint.com/:f:/r/sites/SSMA5900127640/Documents%20partages/SSMA%205900127640/SST/4.%20Gest%C3%A3o%20de%20Performance%20e%20Melhoria%20Cont%C3%ADnua/00_PROCEDIMENTOS_ORMEC?csf=1&web=1&e=pY34Br',
     categoria: 'Documentação',
     tag: 'DOCUMENTOS'
+  },
+  {
+    titulo: 'SISPAV',
+    descricao: 'Sistema de gestão de documentos e processos SoftExpert.',
+    url: 'https://vale.softexpert.com/softexpert/workspace?page=home',
+    categoria: 'Sistema',
+    tag: 'DOCUMENTOS'
+  },
+  {
+    titulo: 'Programa Tutor',
+    descricao: 'Dashboard do Programa Tutor com acompanhamento de indicadores.',
+    url: 'https://app.powerbi.com/groups/me/apps/c6b7ad92-428f-4ce8-a17b-5e57be6ebdad/reports/c20236ef-2e92-4d92-9559-6482fab042c4/ReportSectione9aa759ab59550b8ac99?experience=power-bi&bookmarkGuid=9d682296d5f62e7bc084',
+    categoria: 'Dashboard',
+    tag: 'ROTINA'
+  },
+  {
+    titulo: 'Painel de Inspeções',
+    descricao: 'Dashboard de acompanhamento de inspeções realizadas.',
+    url: 'https://app.powerbi.com/groups/me/apps/f1e0a66d-7fb8-481d-837f-121fc3dc59be/reports/4b150e89-01be-4a50-b790-2db09cc797a9/ae22d23fed00c17264bb?ctid=7893571b-6c2c-4cef-b4da-7d4b266a0626&experience=power-bi',
+    categoria: 'Dashboard',
+    tag: 'GESTÃO'
+  },
+  {
+    titulo: 'Painel de N3',
+    descricao: 'Dashboard de monitoramento e análise de N3.',
+    url: 'https://app.powerbi.com/groups/me/apps/c6b7ad92-428f-4ce8-a17b-5e57be6ebdad/reports/235a1467-8c85-4aa5-a489-4026d8841c4f/ReportSection2efad9912839b66f11be?experience=power-bi&bookmarkGuid=7b4f0100c534d9d7a663',
+    categoria: 'Dashboard',
+    tag: 'GESTÃO'
+  },
+  {
+    titulo: 'Painel Planejamento Seguro',
+    descricao: 'Dashboard de acompanhamento do Planejamento Seguro.',
+    url: 'https://app.powerbi.com/groups/me/apps/0210860e-0e28-494e-b142-fff48076bfcc/reports/3d00fa8c-dd02-4c2e-a97a-2a49fdefac10/d75a967fa092e070c509?ctid=7893571b-6c2c-4cef-b4da-7d4b266a0626&experience=power-bi&bookmarkGuid=d64746e0bd90e941d19a',
+    categoria: 'Dashboard',
+    tag: 'GESTÃO'
   },
   {
     titulo: 'Impressão de ARTs',
