@@ -643,25 +643,30 @@ function showCalendarModal() {
   });
   
   // Navegação de mês
-  modal.querySelectorAll('.calendar-nav').forEach(btn => {
-    btn.addEventListener('click', function() {
-      if (this.dataset.action === 'prev') {
-        currentMonth--;
-        if (currentMonth < 0) {
-          currentMonth = 11;
-          currentYear--;
+  function setupNavigation() {
+    modal.querySelectorAll('.calendar-nav').forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (this.dataset.action === 'prev') {
+          currentMonth--;
+          if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+          }
+        } else {
+          currentMonth++;
+          if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+          }
         }
-      } else {
-        currentMonth++;
-        if (currentMonth > 11) {
-          currentMonth = 0;
-          currentYear++;
-        }
-      }
-      
-      modal.querySelector('.calendar-container').innerHTML = renderCalendar();
+        
+        modal.querySelector('.calendar-container').innerHTML = renderCalendar();
+        setupNavigation(); // Re-anexar eventos após re-render
+      });
     });
-  });
+  }
+  
+  setupNavigation();
 }
 
 renderSeguranca();
