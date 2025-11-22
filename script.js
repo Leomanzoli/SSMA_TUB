@@ -44,6 +44,14 @@ tabs.forEach(btn => {
 
 const segurancaLinks = [
   {
+    titulo: 'Manobras Previstas',
+    descricao: 'Acompanhamento em tempo real das manobras previstas nos berços PRMCV1, PRMCV2, TUBP02, TUBP1N, TUBP1S e TUBTGL.',
+    categoria: 'Dashboard',
+    tag: 'ROTINA',
+    isModal: true,
+    modalId: 'manobras-modal'
+  },
+  {
     titulo: 'Inspeções e N3',
     descricao: 'Portal IRIS para registro de N3 e inspeções.',
     url: 'https://iris.valeglobal.net/login',
@@ -289,9 +297,11 @@ function renderSeguranca() {
         <div class="actions">
           ${link.isCalendar
             ? `<button class="btn-link" aria-label="Abrir calendário de escalas">Ver Calendário</button>`
-            : link.url
-              ? `<a class="btn-link" href="${link.url}" target="_blank" rel="noopener noreferrer" aria-label="Abrir link: ${link.titulo}">Abrir</a>`
-              : `<span class="btn-link secondary" title="Link não fornecido">Indisponível</span>`
+            : link.isModal
+              ? `<button class="btn-link" data-modal-id="${link.modalId}" aria-label="Abrir ${link.titulo}">Visualizar</button>`
+              : link.url
+                ? `<a class="btn-link" href="${link.url}" target="_blank" rel="noopener noreferrer" aria-label="Abrir link: ${link.titulo}">Abrir</a>`
+                : `<span class="btn-link secondary" title="Link não fornecido">Indisponível</span>`
           }
           ${link.hasInspectionList 
             ? `<button class="btn-link secondary inspection-list-btn" aria-label="Ver lista de inspeções">Lista de Inspeções</button>`
@@ -354,6 +364,18 @@ function renderSeguranca() {
         showCalendarModal();
       });
     }
+  });
+  
+  // Event listener para botões de modal (como Manobras Previstas)
+  document.querySelectorAll('.actions .btn-link[data-modal-id]').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const modalId = this.getAttribute('data-modal-id');
+      
+      if (modalId === 'manobras-modal') {
+        openManobrasModal();
+      }
+    });
   });
 }
 
@@ -724,5 +746,141 @@ tabs.forEach(btn => {
     }
   });
 });
+
+// ===== Modal de Manobras Previstas =====
+const manobrasModal = document.getElementById('manobras-modal');
+const manobrasCloseBtn = manobrasModal?.querySelector('.modal-close');
+
+// Função para abrir o modal de manobras
+function openManobrasModal() {
+  if (!manobrasModal) return;
+  
+  manobrasModal.classList.add('active');
+  manobrasModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  
+  // Carregar dados ao abrir
+  loadManobrasData();
+}
+
+// Função para fechar o modal
+function closeManobrasModal() {
+  if (!manobrasModal) return;
+  
+  manobrasModal.classList.remove('active');
+  manobrasModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+// Event listeners do modal
+if (manobrasCloseBtn) {
+  manobrasCloseBtn.addEventListener('click', closeManobrasModal);
+}
+
+if (manobrasModal) {
+  // Fechar ao clicar fora do conteúdo
+  manobrasModal.addEventListener('click', (e) => {
+    if (e.target === manobrasModal) {
+      closeManobrasModal();
+    }
+  });
+  
+  // Fechar com tecla ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && manobrasModal.classList.contains('active')) {
+      closeManobrasModal();
+    }
+  });
+}
+
+// Função para carregar e exibir dados de manobras
+async function loadManobrasData() {
+  const tbody = document.getElementById('manobras-tbody');
+  const timestampEl = document.getElementById('manobras-timestamp');
+  const totalEl = document.getElementById('manobras-total');
+  
+  if (!tbody) return;
+  
+  // Mostrar loading
+  tbody.innerHTML = '<tr><td colspan="6" class="loading-msg">Carregando dados...</td></tr>';
+  
+  try {
+    const response = await fetch('manobras-data.json?' + Date.now()); // Cache bust
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    
+    const data = await response.json();
+    
+    // Atualizar timestamp
+    if (data.ultima_atualizacao && timestampEl) {
+      const date = new Date(data.ultima_atualizacao);
+      timestampEl.textContent = date.toLocaleString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+    
+    // Atualizar total
+    if (totalEl) {
+      totalEl.textContent = data.total || 0;
+    }
+    
+    // Renderizar tabela
+    if (!data.manobras || data.manobras.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="6" class="empty-msg">Nenhuma manobra prevista para os berços monitorados.</td></tr>';
+      return;
+    }
+    
+    tbody.innerHTML = data.manobras.map(manobra => {
+      // Determinar classe da situação
+      let situacaoClass = 'situacao-badge ';
+      const sit = (manobra.situacao || '').toLowerCase();
+      
+      if (sit.includes('prevista') || sit.includes('programada')) {
+        situacaoClass += 'situacao-prevista';
+      } else if (sit.includes('atracado') || sit.includes('atracada')) {
+        situacaoClass += 'situacao-atracado';
+      } else if (sit.includes('operando') || sit.includes('operação')) {
+        situacaoClass += 'situacao-operando';
+      } else if (sit.includes('encerrado') || sit.includes('concluído')) {
+        situacaoClass += 'situacao-encerrado';
+      }
+      
+      return `
+        <tr>
+          <td><strong>${escapeHtml(manobra.nome || '-')}</strong></td>
+          <td>${escapeHtml(manobra.data || '-')}</td>
+          <td>${escapeHtml(manobra.hora || '-')}</td>
+          <td>${escapeHtml(manobra.manobra || '-')}</td>
+          <td><strong>${escapeHtml(manobra.berco || '-')}</strong></td>
+          <td><span class="${situacaoClass}">${escapeHtml(manobra.situacao || '-')}</span></td>
+        </tr>
+      `;
+    }).join('');
+    
+  } catch (error) {
+    console.error('Erro ao carregar manobras:', error);
+    tbody.innerHTML = '<tr><td colspan="6" class="error-msg">Erro ao carregar dados. Tente novamente mais tarde.</td></tr>';
+    
+    if (timestampEl) {
+      timestampEl.textContent = 'Indisponível';
+    }
+    if (totalEl) {
+      totalEl.textContent = '0';
+    }
+  }
+}
+
+// Função auxiliar para escapar HTML
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
 
 // Futuro: fetch('data/links.json').then(...)

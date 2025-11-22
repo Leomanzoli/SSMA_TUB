@@ -5,7 +5,10 @@
   <title>Portal SSMA - Limpeza Industrial - Porto de Tubarão</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="Portal unificado de links e recursos das áreas de Segurança, Saúde e Meio Ambiente (SSMA) - Limpeza Industrial - Porto de Tubarão." />
-  <link rel="stylesheet" href="style.css?v=3" />
+  <link rel="stylesheet" href="style.css?v=4" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
 </head>
 <body>
   <header class="app-header">
@@ -100,6 +103,45 @@
     <p class="small">Desenvolvido para otimizar acesso rápido a recursos críticos de Segurança, Saúde e Meio Ambiente.</p>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- Modal de Manobras Previstas -->
+  <div id="manobras-modal" class="modal" role="dialog" aria-labelledby="manobras-modal-title" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="manobras-modal-title">Manobras Previstas - Berços SSMA</h2>
+        <button class="modal-close" aria-label="Fechar modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="manobras-info">
+          <p class="ultima-atualizacao">
+            <strong>Última atualização:</strong> <span id="manobras-timestamp">Carregando...</span>
+          </p>
+          <p class="manobras-count">
+            <strong>Total de manobras:</strong> <span id="manobras-total">0</span>
+          </p>
+        </div>
+        <div class="table-wrapper">
+          <table id="manobras-table" class="manobras-table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Manobra</th>
+                <th>Berço</th>
+                <th>Situação</th>
+              </tr>
+            </thead>
+            <tbody id="manobras-tbody">
+              <tr>
+                <td colspan="6" class="loading-msg">Carregando dados...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js?v=4"></script>
 </body>
 </html>

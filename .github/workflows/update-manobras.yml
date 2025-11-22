@@ -1,0 +1,55 @@
+name: Atualizar Manobras Previstas
+
+on:
+  schedule:
+    # Executa a cada 15 minutos
+    - cron: '*/15 * * * *'
+  workflow_dispatch: # Permite execução manual
+
+jobs:
+  update-manobras:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+      
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Instalar dependências
+        run: |
+          pip install -r requirements.txt
+      
+      - name: Executar scraper
+        run: |
+          python scraper.py
+      
+      - name: Verificar alterações
+        id: check_changes
+        run: |
+          if [[ -n $(git status --porcelain manobras-data.json) ]]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Commit e push das alterações
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add manobras-data.json
+          git commit -m "🔄 Atualizar dados de manobras previstas [bot]"
+          git push
+      
+      - name: Sem alterações
+        if: steps.check_changes.outputs.changed == 'false'
+        run: |
+          echo "Nenhuma alteração nos dados de manobras."

@@ -1,0 +1,38 @@
+{
+  "ultima_atualizacao": "2025-11-22T13:37:13.586324",
+  "total": 4,
+  "manobras": [
+    {
+      "nome": "EMERALD DINGHAI",
+      "data": "25/11/2025",
+      "hora": "16:00",
+      "manobra": "SAIDA",
+      "berco": "PRMCV1",
+      "situacao": "PREVISTA"
+    },
+    {
+      "nome": "AFRICAN WOODSTAR",
+      "data": "25/11/2025",
+      "hora": "17:00",
+      "manobra": "ENTRADA",
+      "berco": "PRMCV1",
+      "situacao": "PREVISTA"
+    },
+    {
+      "nome": "PELAGIA",
+      "data": "25/11/2025",
+      "hora": "22:00",
+      "manobra": "ENTRADA",
+      "berco": "TUBP1S",
+      "situacao": "PREVISTA"
+    },
+    {
+      "nome": "CHOLA UNITY",
+      "data": "26/11/2025",
+      "hora": "00:00",
+      "manobra": "SAIDA",
+      "berco": "PRMCV2",
+      "situacao": "PREVISTA"
+    }
+  ]
+}

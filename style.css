@@ -701,13 +701,34 @@ main {
   
   .modal-body {
     padding: 0.3rem;
-    overflow-x: hidden;
+    overflow-x: auto;
     width: 100%;
+    -webkit-overflow-scrolling: touch;
   }
   
   .calendar-container {
     width: 100%;
-    overflow-x: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Estilizar scrollbar no mobile */
+  .calendar-container::-webkit-scrollbar {
+    height: 8px;
+  }
+  
+  .calendar-container::-webkit-scrollbar-track {
+    background: rgba(var(--primary-rgb), 0.1);
+    border-radius: 10px;
+  }
+  
+  .calendar-container::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+  }
+  
+  .calendar-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(var(--primary-rgb), 0.8);
   }
   
   .calendar-header {
@@ -729,10 +750,11 @@ main {
   }
   
   .calendar-days {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.5rem;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(150px, 1fr)) !important;
+    gap: 0.5rem !important;
     width: 100%;
+    min-width: 600px;
     padding: 0.5rem;
   }
   
@@ -795,7 +817,18 @@ main {
     font-size: 0.6rem;
     gap: 0.4rem;
     padding: 0.3rem;
-    justify-content: center;
+  }
+  
+  /* Indicador de scroll no mobile */
+  .calendar-container::after {
+    content: '← Deslize para ver mais →';
+    display: block;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--primary);
+    opacity: 0.7;
+    font-weight: 600;
   }
 }
 
@@ -952,4 +985,265 @@ main {
 
 [data-theme="dark"] .scale-letter.night {
   background: #555;
+}
+
+/* ===== Modal de Manobras Previstas ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: var(--panel);
+  border-radius: var(--radius);
+  width: 95%;
+  max-width: 1200px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 2px solid var(--border);
+  background: var(--gradient);
+  color: #fff;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.modal-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: rotate(90deg);
+}
+
+.modal-close:active {
+  transform: scale(0.95) rotate(90deg);
+}
+
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.manobras-info {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(var(--primary-rgb), 0.05);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary);
+  flex-wrap: wrap;
+}
+
+.manobras-info p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.manobras-info strong {
+  color: var(--primary);
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.manobras-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--panel);
+}
+
+.manobras-table thead {
+  background: var(--gradient);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.manobras-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.manobras-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+
+.manobras-table tbody tr:hover {
+  background: rgba(var(--primary-rgb), 0.05);
+}
+
+.manobras-table td {
+  padding: 1rem;
+  vertical-align: top;
+}
+
+.manobras-table td.loading-msg,
+.manobras-table td.error-msg,
+.manobras-table td.empty-msg {
+  text-align: center;
+  padding: 2rem;
+  font-style: italic;
+  color: var(--text);
+  opacity: 0.7;
+}
+
+.manobras-table td.error-msg {
+  color: var(--accent);
+}
+
+/* Estilos para situações específicas */
+.situacao-badge {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.situacao-prevista {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.situacao-atracado {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.situacao-operando {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.situacao-encerrado {
+  background: #f5f5f5;
+  color: #616161;
+}
+
+[data-theme="dark"] .situacao-prevista {
+  background: #1565c0;
+  color: #e3f2fd;
+}
+
+[data-theme="dark"] .situacao-atracado {
+  background: #2e7d32;
+  color: #e8f5e9;
+}
+
+[data-theme="dark"] .situacao-operando {
+  background: #e65100;
+  color: #fff3e0;
+}
+
+[data-theme="dark"] .situacao-encerrado {
+  background: #424242;
+  color: #f5f5f5;
+}
+
+/* Responsividade do modal */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 98%;
+    max-height: 95vh;
+  }
+
+  .modal-header {
+    padding: 1rem;
+  }
+
+  .modal-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal-body {
+    padding: 1rem;
+  }
+
+  .manobras-info {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .manobras-table th,
+  .manobras-table td {
+    padding: 0.7rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .manobras-table th {
+    font-size: 0.8rem;
+  }
 }
