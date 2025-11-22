@@ -708,27 +708,13 @@ main {
   
   .calendar-container {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: visible;
     -webkit-overflow-scrolling: touch;
   }
   
-  /* Estilizar scrollbar no mobile */
+  /* Remover scrollbar no mobile */
   .calendar-container::-webkit-scrollbar {
-    height: 8px;
-  }
-  
-  .calendar-container::-webkit-scrollbar-track {
-    background: rgba(var(--primary-rgb), 0.1);
-    border-radius: 10px;
-  }
-  
-  .calendar-container::-webkit-scrollbar-thumb {
-    background: var(--primary);
-    border-radius: 10px;
-  }
-  
-  .calendar-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(var(--primary-rgb), 0.8);
+    display: none;
   }
   
   .calendar-header {
@@ -751,10 +737,9 @@ main {
   
   .calendar-days {
     display: grid !important;
-    grid-template-columns: repeat(4, minmax(150px, 1fr)) !important;
+    grid-template-columns: repeat(4, 1fr) !important;
     gap: 0.5rem !important;
     width: 100%;
-    min-width: 600px;
     padding: 0.5rem;
   }
   
@@ -819,16 +804,9 @@ main {
     padding: 0.3rem;
   }
   
-  /* Indicador de scroll no mobile */
+  /* Remover indicador de scroll no mobile */
   .calendar-container::after {
-    content: '← Deslize para ver mais →';
-    display: block;
-    text-align: center;
-    padding: 0.5rem;
-    font-size: 0.75rem;
-    color: var(--primary);
-    opacity: 0.7;
-    font-weight: 600;
+    display: none;
   }
 }
 
@@ -904,8 +882,8 @@ main {
 
 .calendar-days {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
 }
 
 .calendar-day {
