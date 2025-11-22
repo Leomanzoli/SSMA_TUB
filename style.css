@@ -755,6 +755,12 @@ main {
     display: none; /* Oculta dias vazios no mobile */
   }
   
+  .weekday-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  
   .day-number {
     font-size: 0.9rem;
     margin-bottom: 0.3rem;
@@ -881,6 +887,12 @@ main {
   display: flex;
   flex-direction: column;
   transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.weekday-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary);
 }
 
 .calendar-day:hover:not(.empty) {

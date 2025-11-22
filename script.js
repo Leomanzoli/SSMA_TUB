@@ -559,17 +559,14 @@ function showCalendarModal() {
     const startingDayOfWeek = firstDay.getDay();
     
     const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+              'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+    const weekdayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
     
     let calendarHTML = `
       <div class="calendar-header">
         <button class="calendar-nav" data-action="prev">&larr;</button>
         <h4>${monthNames[currentMonth]} ${currentYear}</h4>
         <button class="calendar-nav" data-action="next">&rarr;</button>
-      </div>
-      <div class="calendar-weekdays">
-        <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div>
-        <div>Qui</div><div>Sex</div><div>Sáb</div>
       </div>
       <div class="calendar-days">
     `;
@@ -584,9 +581,11 @@ function showCalendarModal() {
       const date = new Date(currentYear, currentMonth, day);
       const isToday = date.toDateString() === today.toDateString();
       const scales = getScaleForDate(date);
+      const weekdayLabel = weekdayNames[date.getDay()];
       
       calendarHTML += `
         <div class="calendar-day ${isToday ? 'today' : ''}" data-date="${date.toISOString()}">
+          <div class="weekday-label">${weekdayLabel}</div>
           <div class="day-number">${day}</div>
           <div class="day-scales">
             <div class="scale-row">
