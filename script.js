@@ -743,6 +743,7 @@ function showCalendarModal() {
   const today = new Date();
   let currentMonth = today.getMonth();
   let currentYear = today.getFullYear();
+  let selectedScale = null; // Nenhuma escala selecionada inicialmente
   
   function renderCalendar() {
     const firstDay = new Date(currentYear, currentMonth, 1);
@@ -775,20 +776,32 @@ function showCalendarModal() {
       const scales = getScaleForDate(date);
       const weekdayLabel = weekdayNames[date.getDay()];
       
+      // Verificar se o dia contém a escala selecionada
+      let hasSelectedScale = false;
+      if (selectedScale) {
+        const allScales = [
+          scales.operation.morning,
+          scales.operation.night,
+          scales.safety.day,
+          scales.safety.night
+        ];
+        hasSelectedScale = allScales.includes(selectedScale);
+      }
+      
       calendarHTML += `
-        <div class="calendar-day ${isToday ? 'today' : ''}" data-date="${date.toISOString()}">
+        <div class="calendar-day ${isToday ? 'today' : ''} ${hasSelectedScale ? 'highlighted' : ''}" data-date="${date.toISOString()}">
           <div class="weekday-label">${weekdayLabel}</div>
           <div class="day-number">${day}</div>
           <div class="day-scales">
             <div class="scale-row">
               <span class="scale-label">Op:</span>
-              <span class="scale-letter">${scales.operation.morning}</span>
-              <span class="scale-letter night">${scales.operation.night}</span>
+              <span class="scale-letter ${selectedScale === scales.operation.morning ? 'selected-scale' : ''}">${scales.operation.morning}</span>
+              <span class="scale-letter night ${selectedScale === scales.operation.night ? 'selected-scale' : ''}">${scales.operation.night}</span>
             </div>
             <div class="scale-row">
               <span class="scale-label">Seg:</span>
-              <span class="scale-letter">${scales.safety.day}</span>
-              <span class="scale-letter night">${scales.safety.night}</span>
+              <span class="scale-letter ${selectedScale === scales.safety.day ? 'selected-scale' : ''}">${scales.safety.day}</span>
+              <span class="scale-letter night ${selectedScale === scales.safety.night ? 'selected-scale' : ''}">${scales.safety.night}</span>
             </div>
           </div>
         </div>
@@ -807,6 +820,17 @@ function showCalendarModal() {
         <button class="modal-close" aria-label="Fechar">&times;</button>
       </div>
       <div class="modal-body">
+        <div class="calendar-scale-filter">
+          <label for="scale-selector">Filtrar por escala:</label>
+          <select id="scale-selector" class="scale-selector">
+            <option value="">Todas as escalas</option>
+            <option value="A">Escala A</option>
+            <option value="B">Escala B</option>
+            <option value="C">Escala C</option>
+            <option value="D">Escala D</option>
+            <option value="E">Escala E</option>
+          </select>
+        </div>
         <div class="calendar-legend">
           <div><strong>Op:</strong> Operação</div>
           <div><strong>Seg:</strong> Segurança</div>
@@ -821,6 +845,14 @@ function showCalendarModal() {
   `;
   
   document.body.appendChild(modal);
+  
+  // Seletor de escala
+  const scaleSelector = modal.querySelector('#scale-selector');
+  scaleSelector.addEventListener('change', function() {
+    selectedScale = this.value || null;
+    modal.querySelector('.calendar-container').innerHTML = renderCalendar();
+    setupNavigation();
+  });
   
   // Fechar modal
   modal.querySelector('.modal-close').addEventListener('click', () => {

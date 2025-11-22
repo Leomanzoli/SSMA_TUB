@@ -815,6 +815,45 @@ main {
   max-width: 850px;
 }
 
+.calendar-scale-filter {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.calendar-scale-filter label {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.scale-selector {
+  flex: 1;
+  max-width: 200px;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.scale-selector:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.scale-selector:hover {
+  border-color: var(--primary);
+}
+
 .calendar-legend {
   display: flex;
   gap: 1.5rem;
@@ -963,6 +1002,26 @@ main {
 
 [data-theme="dark"] .scale-letter.night {
   background: #555;
+}
+
+/* Destaque de escala selecionada */
+.calendar-day.highlighted {
+  background: rgba(var(--primary-rgb), 0.15);
+  border: 2px solid var(--primary);
+  box-shadow: 0 0 12px rgba(var(--primary-rgb), 0.3);
+}
+
+.scale-letter.selected-scale {
+  background: #FFD700;
+  color: #000;
+  font-weight: 900;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+  transform: scale(1.1);
+}
+
+.scale-letter.night.selected-scale {
+  background: #FFA500;
+  color: #000;
 }
 
 /* ===== Modal de Manobras Previstas ===== */
