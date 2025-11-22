@@ -507,7 +507,7 @@ function showArtModal() {
 }
 
 // Configuração das escalas (data de referência: 22/11/2025)
-// Ontem(21) e hoje(22) manhã: C | noite: A
+// Hoje(22): Op manhã=C noite=A | Seg dia=3 noite=1
 const scaleConfig = {
   referenceDate: new Date(2025, 10, 22), // 22 de novembro de 2025
   operation: {
@@ -515,8 +515,8 @@ const scaleConfig = {
     night: ['A', 'A', 'B', 'B', 'C', 'C', 'D', 'D']
   },
   safety: {
-    day: ['3', '2', '2', '3', '4', '1', '1', '4'], // Alterna a cada 2 dias (A=1, B=2, C=3, D=4)
-    night: ['1', '4', '4', '1', '2', '3', '3', '2']
+    day: ['3', '2', '2', '4', '4', '1', '1', '3'], // 22/11=3, 23/11=2, 24/11=2, 25/11=4...
+    night: ['1', '4', '4', '2', '2', '3', '3', '1']  // 22/11=1, 23/11=4, 24/11=4, 25/11=2...
   }
 };
 
