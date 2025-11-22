@@ -44,13 +44,6 @@ tabs.forEach(btn => {
 
 const segurancaLinks = [
   {
-    titulo: 'Calendário de Escalas',
-    descricao: 'Visualização do calendário de escalas da operação e equipe de segurança.',
-    categoria: 'Calendário',
-    tag: 'ROTINA',
-    isCalendar: true
-  },
-  {
     titulo: 'Inspeções e N3',
     descricao: 'Portal IRIS para registro de N3 e inspeções.',
     url: 'https://iris.valeglobal.net/login',
@@ -670,6 +663,15 @@ function showCalendarModal() {
 }
 
 renderSeguranca();
+
+// Event listener para botão de calendário global
+const calendarBtn = document.getElementById('open-calendar-btn');
+if (calendarBtn) {
+  calendarBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    showCalendarModal();
+  });
+}
 
 // Filtro por tags
 const filterTags = document.querySelectorAll('.filter-tag');
