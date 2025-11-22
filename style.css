@@ -729,20 +729,26 @@ main {
   }
   
   .calendar-days {
-    grid-template-columns: repeat(4, 1fr); /* Máximo 4 colunas no mobile */
+    display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
     width: 100%;
     padding: 0.5rem;
   }
   
   .calendar-day {
+    flex: 1 0 calc(25% - 0.5rem);
+    max-width: calc(25% - 0.5rem);
+    min-width: calc(25% - 0.5rem);
     padding: 0.5rem;
-    min-height: auto;
+    min-height: 110px;
     max-height: none;
     font-size: 0.85rem;
-    width: 100%;
     box-sizing: border-box;
     overflow: visible;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
   
   .calendar-day.empty {
