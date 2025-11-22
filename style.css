@@ -894,33 +894,39 @@ main {
 .calendar-weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-  margin-bottom: 4px;
+  gap: 2px;
+  margin-bottom: 2px;
   font-weight: 600;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.5rem;
   color: var(--primary);
+  max-width: 25%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .calendar-days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
+  gap: 2px;
+  max-width: 25%;
+  margin: 0 auto;
 }
 
 .calendar-day {
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0.4rem;
+  border-radius: 3px;
+  padding: 0.1rem;
   aspect-ratio: 1;
   display: flex;
   flex-direction: column;
   transition: transform 0.2s, box-shadow 0.2s;
+  font-size: 0.5rem;
 }
 
 .weekday-label {
-  font-size: 0.75rem;
+  font-size: 0.5rem;
   font-weight: 600;
   color: var(--primary);
 }
@@ -942,39 +948,39 @@ main {
 
 .day-number {
   font-weight: 600;
-  font-size: 0.9rem;
-  margin-bottom: 0.3rem;
+  font-size: 0.5rem;
+  margin-bottom: 0.1rem;
   color: var(--text);
 }
 
 .day-scales {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  font-size: 0.7rem;
+  gap: 0.1rem;
+  font-size: 0.4rem;
 }
 
 .scale-row {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.1rem;
 }
 
 .scale-label {
   font-weight: 600;
-  font-size: 0.65rem;
+  font-size: 0.4rem;
   color: var(--text);
   opacity: 0.7;
-  min-width: 24px;
+  min-width: 12px;
 }
 
 .scale-letter {
   background: var(--primary);
   color: #fff;
-  padding: 2px 5px;
-  border-radius: 3px;
+  padding: 1px 2px;
+  border-radius: 2px;
   font-weight: 700;
-  font-size: 0.7rem;
+  font-size: 0.4rem;
   min-width: 18px;
   text-align: center;
 }
