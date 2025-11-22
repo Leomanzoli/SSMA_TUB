@@ -729,6 +729,39 @@ tabs.forEach(btn => {
 let manobrasData = null;
 let manobrasLastUpdate = null;
 
+// Sanitize HTML to prevent XSS
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Show toast notification
+function showToast(message, type = 'error') {
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.textContent = message;
+  toast.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: ${type === 'error' ? '#dc3545' : '#28a745'};
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 10001;
+    animation: slideIn 0.3s ease;
+  `;
+  
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
 async function loadManobrasData() {
   try {
     const response = await fetch('data/manobras.json?t=' + Date.now());
@@ -779,12 +812,12 @@ function showManobrasModal() {
         <tbody>
           ${manobrasData.map(m => `
             <tr>
-              <td>${m.data || '-'}</td>
-              <td>${m.horario || '-'}</td>
-              <td>${m.navio || '-'}</td>
-              <td>${m.berco || '-'}</td>
-              <td>${m.operacao || '-'}</td>
-              <td><span class="status-badge status-${(m.status || '').toLowerCase()}">${m.status || '-'}</span></td>
+              <td>${escapeHtml(m.data || '-')}</td>
+              <td>${escapeHtml(m.horario || '-')}</td>
+              <td>${escapeHtml(m.navio || '-')}</td>
+              <td>${escapeHtml(m.berco || '-')}</td>
+              <td>${escapeHtml(m.operacao || '-')}</td>
+              <td><span class="status-badge status-${escapeHtml((m.status || '').toLowerCase())}">${escapeHtml(m.status || '-')}</span></td>
             </tr>
           `).join('')}
         </tbody>
@@ -838,8 +871,9 @@ function showManobrasModal() {
     if (success) {
       modal.remove();
       showManobrasModal();
+      showToast('Dados atualizados com sucesso!', 'success');
     } else {
-      alert('Erro ao atualizar dados. Tente novamente.');
+      showToast('Erro ao atualizar dados. Tente novamente.');
       this.disabled = false;
       this.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg> Atualizar Dados';
     }
@@ -849,8 +883,28 @@ function showManobrasModal() {
 // Carregar dados ao iniciar
 loadManobrasData();
 
-// Atualizar dados automaticamente a cada 15 minutos
-setInterval(loadManobrasData, 15 * 60 * 1000);
+// Atualizar dados automaticamente a cada 15 minutos, mas apenas quando a página está visível
+let updateInterval;
+
+function startAutoUpdate() {
+  if (updateInterval) clearInterval(updateInterval);
+  updateInterval = setInterval(() => {
+    if (!document.hidden) {
+      loadManobrasData();
+    }
+  }, 15 * 60 * 1000);
+}
+
+startAutoUpdate();
+
+// Pausar/retomar atualização automática baseado na visibilidade da página
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) {
+    // Página ficou visível novamente, atualizar dados e reiniciar intervalo
+    loadManobrasData();
+    startAutoUpdate();
+  }
+});
 
 // Event listener para botão de manobras
 const manobrasBtn = document.getElementById('open-manobras-btn');
@@ -862,7 +916,7 @@ if (manobrasBtn) {
         if (success) {
           showManobrasModal();
         } else {
-          alert('Erro ao carregar dados de manobras. Tente novamente.');
+          showToast('Erro ao carregar dados de manobras. Tente novamente.');
         }
       });
     } else {
