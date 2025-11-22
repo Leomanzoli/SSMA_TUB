@@ -1063,6 +1063,64 @@ if (calendarBtn) {
   });
 }
 
+// Event listener para botão de downloads
+const downloadsBtn = document.getElementById('open-downloads-btn');
+if (downloadsBtn) {
+  downloadsBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    showDownloadsModal();
+  });
+}
+
+// Função para mostrar modal de downloads
+function showDownloadsModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.innerHTML = `
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3>Downloads - App IRIS</h3>
+        <button class="modal-close" aria-label="Fechar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="download-links">
+          <a href="https://play.google.com/store/apps/details?id=com.vale.iris.app" target="_blank" rel="noopener noreferrer" class="download-link android">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.523 15.341c-.74 0-1.342.606-1.342 1.353s.602 1.353 1.342 1.353c.74 0 1.342-.606 1.342-1.353s-.602-1.353-1.342-1.353zm-11.046 0c-.74 0-1.342.606-1.342 1.353s.602 1.353 1.342 1.353c.74 0 1.342-.606 1.342-1.353s-.602-1.353-1.342-1.353zM12 .5c-.434 0-.856.028-1.27.08L8.078 3.233a8.98 8.98 0 013.844-.855c1.37 0 2.662.306 3.822.852l-2.652-2.653A11.463 11.463 0 0012 .5zm-8.51 4.556L.736 7.81C.264 8.837 0 9.955 0 11.136c0 .637.067 1.258.192 1.857l2.937-2.937a8.972 8.972 0 01.361-5zm16.982.008a8.965 8.965 0 01.361 4.992l2.937 2.937A11.427 11.427 0 0024 11.136c0-1.18-.264-2.298-.736-3.326l-2.753-2.754zM5.04 16.521l-2.88 2.88a11.435 11.435 0 004.007 3.157l2.655-2.655a8.975 8.975 0 01-3.782-3.382zm13.922.004a8.972 8.972 0 01-3.782 3.378l2.655 2.655a11.435 11.435 0 004.007-3.157l-2.88-2.876zM12 21.923a8.964 8.964 0 01-1.847-.192l2.653 2.653c.394.052.796.08 1.206.08.41 0 .812-.028 1.206-.08l2.653-2.653A8.964 8.964 0 0112 21.923z"/>
+            </svg>
+            <div>
+              <strong>Iris para Android</strong>
+              <span>Baixar na Google Play Store</span>
+            </div>
+          </a>
+          <a href="https://apps.apple.com/us/app/iris-application/id6744179282" target="_blank" rel="noopener noreferrer" class="download-link ios">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+            </svg>
+            <div>
+              <strong>Iris para iPhone</strong>
+              <span>Baixar na App Store</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Fechar modal
+  modal.querySelector('.modal-close').addEventListener('click', () => {
+    modal.remove();
+  });
+  
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
+}
+
 // Filtro por tags
 const filterTags = document.querySelectorAll('.filter-tag');
 filterTags.forEach(btn => {

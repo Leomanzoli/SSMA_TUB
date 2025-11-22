@@ -1024,6 +1024,72 @@ main {
   color: #000;
 }
 
+/* ===== Modal de Downloads ===== */
+.download-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.download-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--panel);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.download-link:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.2);
+}
+
+.download-link svg {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+}
+
+.download-link.android svg {
+  color: #3DDC84;
+}
+
+.download-link.ios svg {
+  color: #000;
+}
+
+[data-theme="dark"] .download-link.ios svg {
+  color: #fff;
+}
+
+.download-link > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.download-link strong {
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.download-link span {
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0.7;
+}
+
+.download-link:hover strong {
+  color: var(--primary);
+}
+
 /* ===== Modal de Manobras Previstas ===== */
 .modal {
   display: none;
