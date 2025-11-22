@@ -737,7 +737,7 @@ main {
   
   .calendar-days {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-columns: repeat(3, 1fr) !important;
     gap: 0.5rem !important;
     width: 100%;
     padding: 0.5rem;
