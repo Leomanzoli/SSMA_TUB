@@ -953,3 +953,111 @@ main {
 [data-theme="dark"] .scale-letter.night {
   background: #555;
 }
+
+/* Estilos do Modal de Manobras */
+.manobras-modal .modal-content {
+  max-width: 900px;
+}
+
+.manobras-info {
+  background: rgba(var(--primary-rgb), 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.manobras-info p {
+  margin: 0.5rem 0;
+}
+
+.last-update {
+  color: #666;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+[data-theme="dark"] .last-update {
+  color: #999;
+}
+
+.manobras-table-container {
+  overflow-x: auto;
+  margin: 0 -0.5rem;
+}
+
+.manobras-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  background: var(--panel);
+}
+
+.manobras-table thead {
+  background: var(--primary);
+  color: #fff;
+}
+
+.manobras-table th {
+  padding: 0.85rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.manobras-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+
+.manobras-table tbody tr:hover {
+  background: rgba(var(--primary-rgb), 0.04);
+}
+
+.manobras-table td {
+  padding: 0.85rem 0.75rem;
+  vertical-align: middle;
+}
+
+.berco-badge {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.situacao-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .manobras-table {
+    font-size: 0.8rem;
+  }
+  
+  .manobras-table th,
+  .manobras-table td {
+    padding: 0.6rem 0.5rem;
+  }
+  
+  .manobras-table thead th {
+    font-size: 0.75rem;
+  }
+  
+  .berco-badge,
+  .situacao-badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
