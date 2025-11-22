@@ -691,16 +691,18 @@ main {
   }
   
   .calendar-modal .modal-content {
-    max-width: 95vw;
+    max-width: 98vw !important;
+    width: 98vw !important;
     max-height: 90vh;
     overflow-y: auto;
-    padding: 0.5rem;
-    width: 95vw;
+    padding: 0.3rem;
+    margin: 0;
   }
   
   .modal-body {
-    padding: 0.5rem;
+    padding: 0.3rem;
     overflow-x: hidden;
+    width: 100%;
   }
   
   .calendar-container {
@@ -709,11 +711,12 @@ main {
   }
   
   .calendar-header {
-    padding: 0.5rem;
+    padding: 0.4rem;
+    margin-bottom: 0.5rem;
   }
   
   .calendar-header h4 {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
   
   .calendar-nav {
@@ -722,53 +725,68 @@ main {
   }
   
   .calendar-weekdays {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     gap: 1px;
+    padding: 0 2px;
   }
   
   .calendar-days {
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     gap: 1px;
     width: 100%;
+    padding: 0 2px;
   }
   
   .calendar-day {
-    padding: 0.15rem;
-    min-height: 60px;
-    font-size: 0.6rem;
+    padding: 2px;
+    min-height: 55px;
+    max-height: 70px;
+    font-size: 0.55rem;
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
+  }
+  
+  .calendar-day.empty {
+    min-height: 0;
   }
   
   .day-number {
-    font-size: 0.65rem;
-    margin-bottom: 0.15rem;
+    font-size: 0.6rem;
+    margin-bottom: 0.1rem;
   }
   
   .day-scales {
-    gap: 0.1rem;
+    gap: 0.05rem;
+    width: 100%;
   }
   
   .scale-row {
     gap: 0.1rem;
     flex-wrap: nowrap;
+    width: 100%;
+    justify-content: flex-start;
   }
   
   .scale-label {
-    font-size: 0.48rem;
-    min-width: 16px;
+    font-size: 0.45rem;
+    min-width: 14px;
+    max-width: 14px;
+    flex-shrink: 0;
   }
   
   .scale-letter {
-    font-size: 0.5rem;
-    padding: 1px 2px;
-    min-width: 12px;
+    font-size: 0.48rem;
+    padding: 0px 2px;
+    min-width: 11px;
+    max-width: 13px;
+    flex-shrink: 0;
   }
   
   .calendar-legend {
-    font-size: 0.65rem;
-    gap: 0.5rem;
-    padding: 0.4rem;
+    font-size: 0.6rem;
+    gap: 0.4rem;
+    padding: 0.3rem;
     justify-content: center;
   }
 }
