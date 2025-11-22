@@ -44,6 +44,13 @@ tabs.forEach(btn => {
 
 const segurancaLinks = [
   {
+    titulo: 'Calendário de Escalas',
+    descricao: 'Visualização do calendário de escalas da operação e equipe de segurança.',
+    categoria: 'Calendário',
+    tag: 'ROTINA',
+    isCalendar: true
+  },
+  {
     titulo: 'Inspeções e N3',
     descricao: 'Portal IRIS para registro de N3 e inspeções.',
     url: 'https://iris.valeglobal.net/login',
@@ -63,7 +70,7 @@ const segurancaLinks = [
         url: 'https://vale-forms.valeglobal.net/public?id=89tgFjrT8sWB6U7jbAcWYQ%3d%3d&lang=pt-BR&need_auth=false'
       },
       {
-        titulo: 'DT - Diagnóstico Técnico Ormec',
+        titulo: 'DT - Diagnóstico Técnico',
         url: 'https://vale-forms.valeglobal.net/public?id=v5W%2bBuuTI4HEm9JBbmccmQ%3d%3d&lang=pt-BR&need_auth=false'
       }
     ]
@@ -287,9 +294,11 @@ function renderSeguranca() {
         <h3>${link.titulo} ${link.tag ? `<span class="badge">${link.tag}</span>` : ''}</h3>
         <p>${link.descricao}</p>
         <div class="actions">
-          ${link.url
-            ? `<a class="btn-link" href="${link.url}" target="_blank" rel="noopener noreferrer" aria-label="Abrir link: ${link.titulo}">Abrir</a>`
-            : `<span class="btn-link secondary" title="Link não fornecido">Indisponível</span>`
+          ${link.isCalendar
+            ? `<button class="btn-link" aria-label="Abrir calendário de escalas">Ver Calendário</button>`
+            : link.url
+              ? `<a class="btn-link" href="${link.url}" target="_blank" rel="noopener noreferrer" aria-label="Abrir link: ${link.titulo}">Abrir</a>`
+              : `<span class="btn-link secondary" title="Link não fornecido">Indisponível</span>`
           }
           ${link.hasInspectionList 
             ? `<button class="btn-link secondary inspection-list-btn" aria-label="Ver lista de inspeções">Lista de Inspeções</button>`
@@ -342,6 +351,16 @@ function renderSeguranca() {
       e.preventDefault();
       showArtModal();
     });
+  });
+  
+  // Event listener para botão de calendário
+  document.querySelectorAll('.actions .btn-link').forEach(btn => {
+    if (btn.textContent.includes('Ver Calendário')) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        showCalendarModal();
+      });
+    }
   });
 }
 
@@ -490,6 +509,157 @@ function showArtModal() {
       } catch (err) {
         alert('Erro ao copiar: ' + err);
       }
+    });
+  });
+}
+
+// Configuração das escalas (data de referência: 22/11/2025)
+// Ontem(21) e hoje(22) manhã: C | noite: A
+const scaleConfig = {
+  referenceDate: new Date(2025, 10, 22), // 22 de novembro de 2025
+  operation: {
+    morning: ['C', 'C', 'D', 'D', 'A', 'A', 'B', 'B'], // Ciclo de 8 dias
+    night: ['A', 'A', 'B', 'B', 'C', 'C', 'D', 'D']
+  },
+  safety: {
+    day: ['C', 'B', 'B', 'C', 'D', 'A', 'A', 'D'], // Alterna a cada 2 dias
+    night: ['A', 'D', 'D', 'A', 'B', 'C', 'C', 'B']
+  }
+};
+
+function getScaleForDate(date) {
+  const diffTime = date - scaleConfig.referenceDate;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  const cycleDay = ((diffDays % 8) + 8) % 8; // Garante valor positivo
+  
+  return {
+    operation: {
+      morning: scaleConfig.operation.morning[cycleDay],
+      night: scaleConfig.operation.night[cycleDay]
+    },
+    safety: {
+      day: scaleConfig.safety.day[cycleDay],
+      night: scaleConfig.safety.night[cycleDay]
+    }
+  };
+}
+
+function showCalendarModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  
+  const today = new Date();
+  let currentMonth = today.getMonth();
+  let currentYear = today.getFullYear();
+  
+  function renderCalendar() {
+    const firstDay = new Date(currentYear, currentMonth, 1);
+    const lastDay = new Date(currentYear, currentMonth + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDayOfWeek = firstDay.getDay();
+    
+    const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+    
+    let calendarHTML = `
+      <div class="calendar-header">
+        <button class="calendar-nav" data-action="prev">&larr;</button>
+        <h4>${monthNames[currentMonth]} ${currentYear}</h4>
+        <button class="calendar-nav" data-action="next">&rarr;</button>
+      </div>
+      <div class="calendar-weekdays">
+        <div>Dom</div><div>Seg</div><div>Ter</div><div>Qua</div>
+        <div>Qui</div><div>Sex</div><div>Sáb</div>
+      </div>
+      <div class="calendar-days">
+    `;
+    
+    // Dias vazios antes do primeiro dia
+    for (let i = 0; i < startingDayOfWeek; i++) {
+      calendarHTML += '<div class="calendar-day empty"></div>';
+    }
+    
+    // Dias do mês
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(currentYear, currentMonth, day);
+      const isToday = date.toDateString() === today.toDateString();
+      const scales = getScaleForDate(date);
+      
+      calendarHTML += `
+        <div class="calendar-day ${isToday ? 'today' : ''}" data-date="${date.toISOString()}">
+          <div class="day-number">${day}</div>
+          <div class="day-scales">
+            <div class="scale-row">
+              <span class="scale-label">Op:</span>
+              <span class="scale-letter">${scales.operation.morning}</span>
+              <span class="scale-letter night">${scales.operation.night}</span>
+            </div>
+            <div class="scale-row">
+              <span class="scale-label">Seg:</span>
+              <span class="scale-letter">${scales.safety.day}</span>
+              <span class="scale-letter night">${scales.safety.night}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+    calendarHTML += '</div>';
+    
+    return calendarHTML;
+  }
+  
+  modal.innerHTML = `
+    <div class="modal-content calendar-modal">
+      <div class="modal-header">
+        <h3>Calendário de Escalas</h3>
+        <button class="modal-close" aria-label="Fechar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="calendar-legend">
+          <div><strong>Op:</strong> Operação</div>
+          <div><strong>Seg:</strong> Segurança</div>
+          <div><span class="legend-day">▪</span> Dia</div>
+          <div><span class="legend-night">▪</span> Noite</div>
+        </div>
+        <div class="calendar-container">
+          ${renderCalendar()}
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Fechar modal
+  modal.querySelector('.modal-close').addEventListener('click', () => {
+    modal.remove();
+  });
+  
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
+  
+  // Navegação de mês
+  modal.querySelectorAll('.calendar-nav').forEach(btn => {
+    btn.addEventListener('click', function() {
+      if (this.dataset.action === 'prev') {
+        currentMonth--;
+        if (currentMonth < 0) {
+          currentMonth = 11;
+          currentYear--;
+        }
+      } else {
+        currentMonth++;
+        if (currentMonth > 11) {
+          currentMonth = 0;
+          currentYear++;
+        }
+      }
+      
+      modal.querySelector('.calendar-container').innerHTML = renderCalendar();
     });
   });
 }
