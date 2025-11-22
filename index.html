@@ -5,7 +5,7 @@
   <title>Portal SSMA - Limpeza Industrial - Porto de Tubarão</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="Portal unificado de links e recursos das áreas de Segurança, Saúde e Meio Ambiente (SSMA) - Limpeza Industrial - Porto de Tubarão." />
-  <link rel="stylesheet" href="style.css?v=6" />
+  <link rel="stylesheet" href="style.css?v=7" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -50,11 +50,11 @@
     <section id="seguranca" class="tab-panel active" role="tabpanel" aria-labelledby="seguranca-tab">
       <h2>Segurança</h2>
       <div class="filter-tags">
-        <button class="filter-tag active" data-tag="all">Todos</button>
-        <button class="filter-tag" data-tag="ROTINA">Rotina</button>
-        <button class="filter-tag" data-tag="DOCUMENTOS">Documentos</button>
-        <button class="filter-tag" data-tag="GESTÃO">Gestão</button>
-        <button class="filter-tag" data-tag="TREINAMENTOS">Treinamentos</button>
+        <button class="filter-tag active" data-tag="all" data-section="seguranca">Todos</button>
+        <button class="filter-tag" data-tag="ROTINA" data-section="seguranca">Rotina</button>
+        <button class="filter-tag" data-tag="DOCUMENTOS" data-section="seguranca">Documentos</button>
+        <button class="filter-tag" data-tag="GESTÃO" data-section="seguranca">Gestão</button>
+        <button class="filter-tag" data-tag="TREINAMENTOS" data-section="seguranca">Treinamentos</button>
       </div>
       <div class="cards" id="seguranca-links"></div>
     </section>
@@ -62,12 +62,23 @@
     <section id="saude" class="tab-panel" role="tabpanel" aria-labelledby="saude-tab">
       <h2>Saúde</h2>
       <p class="section-desc">Recursos de saúde ocupacional, monitoramentos e formulários.</p>
+      <div class="filter-tags">
+        <button class="filter-tag active" data-tag="all" data-section="saude">Todos</button>
+        <button class="filter-tag" data-tag="ROTINA" data-section="saude">Rotina</button>
+        <button class="filter-tag" data-tag="GESTÃO" data-section="saude">Gestão</button>
+      </div>
       <div class="cards" id="saude-links"></div>
     </section>
 
     <section id="meio-ambiente" class="tab-panel" role="tabpanel" aria-labelledby="meio-ambiente-tab">
       <h2>Meio Ambiente</h2>
       <p class="section-desc">Ferramentas e fontes de controle ambiental.</p>
+      <div class="filter-tags">
+        <button class="filter-tag active" data-tag="all" data-section="meio-ambiente">Todos</button>
+        <button class="filter-tag" data-tag="ROTINA" data-section="meio-ambiente">Rotina</button>
+        <button class="filter-tag" data-tag="DOCUMENTOS" data-section="meio-ambiente">Documentos</button>
+        <button class="filter-tag" data-tag="TREINAMENTOS" data-section="meio-ambiente">Treinamentos</button>
+      </div>
       <div class="cards" id="meio-ambiente-links"></div>
     </section>
   </main>
@@ -136,6 +147,6 @@
     </div>
   </div>
 
-  <script src="script.js?v=6"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>

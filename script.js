@@ -871,13 +871,19 @@ if (calendarBtn) {
 const filterTags = document.querySelectorAll('.filter-tag');
 filterTags.forEach(btn => {
   btn.addEventListener('click', function() {
-    // Remove active de todos
-    filterTags.forEach(b => b.classList.remove('active'));
+    const section = this.dataset.section || 'seguranca';
+    const currentSection = document.getElementById(section);
+    
+    // Remove active apenas dos botões da mesma seção
+    const sectionButtons = currentSection.querySelectorAll('.filter-tag');
+    sectionButtons.forEach(b => b.classList.remove('active'));
+    
     // Adiciona active no clicado
     this.classList.add('active');
     
     const tag = this.dataset.tag;
-    const cards = document.querySelectorAll('#seguranca-links .card');
+    const containerId = `${section}-links`;
+    const cards = document.querySelectorAll(`#${containerId} .card`);
     
     cards.forEach(card => {
       if (tag === 'all') {
