@@ -159,6 +159,13 @@ const segurancaLinks = [
     url: 'https://vale-forms.valeglobal.net/public?id=Q%2F9FQsStnJFQm67KaD44kQ%3D%3D&lang=pt-BR',
     categoria: 'Treinamento',
     tag: 'TREINAMENTOS'
+  },
+  {
+    titulo: 'Manobras Previstas',
+    descricao: 'Visualize as manobras programadas para os berços PRMCV1, PRMCV2, TUBP02, TUBP1N, TUBP1S e TUBTGL.',
+    categoria: 'Informação',
+    tag: 'ROTINA',
+    hasManobras: true
   }
 ];
 
@@ -289,9 +296,11 @@ function renderSeguranca() {
         <div class="actions">
           ${link.isCalendar
             ? `<button class="btn-link" aria-label="Abrir calendário de escalas">Ver Calendário</button>`
-            : link.url
-              ? `<a class="btn-link" href="${link.url}" target="_blank" rel="noopener noreferrer" aria-label="Abrir link: ${link.titulo}">Abrir</a>`
-              : `<span class="btn-link secondary" title="Link não fornecido">Indisponível</span>`
+            : link.hasManobras
+              ? `<button class="btn-link manobras-btn" aria-label="Ver manobras previstas">Ver Manobras</button>`
+              : link.url
+                ? `<a class="btn-link" href="${link.url}" target="_blank" rel="noopener noreferrer" aria-label="Abrir link: ${link.titulo}">Abrir</a>`
+                : `<span class="btn-link secondary" title="Link não fornecido">Indisponível</span>`
           }
           ${link.hasInspectionList 
             ? `<button class="btn-link secondary inspection-list-btn" aria-label="Ver lista de inspeções">Lista de Inspeções</button>`
@@ -343,6 +352,14 @@ function renderSeguranca() {
     btn.addEventListener('click', function(e) {
       e.preventDefault();
       showArtModal();
+    });
+  });
+  
+  // Event listener para botões de manobras
+  document.querySelectorAll('.manobras-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      showManobrasModal();
     });
   });
   
@@ -504,6 +521,98 @@ function showArtModal() {
       }
     });
   });
+}
+
+function showManobrasModal() {
+  // Fetch manobras data
+  fetch('data/manobras.json')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Falha ao carregar dados');
+      }
+      return response.json();
+    })
+    .then(data => {
+      const modal = document.createElement('div');
+      modal.className = 'modal-overlay';
+      
+      // Format last update time
+      const lastUpdate = new Date(data.ultima_atualizacao);
+      const formattedUpdate = lastUpdate.toLocaleString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      
+      modal.innerHTML = `
+        <div class="modal-content manobras-modal">
+          <div class="modal-header">
+            <h3>Manobras Previstas</h3>
+            <button class="modal-close" aria-label="Fechar">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="manobras-info">
+              <p><strong>Berços monitorados:</strong> PRMCV1, PRMCV2, TUBP02, TUBP1N, TUBP1S, TUBTGL</p>
+              <p class="last-update"><strong>Última atualização:</strong> ${formattedUpdate}</p>
+            </div>
+            ${data.manobras && data.manobras.length > 0 
+              ? `
+                <div class="manobras-table-container">
+                  <table class="manobras-table">
+                    <thead>
+                      <tr>
+                        <th>Nome</th>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Manobra</th>
+                        <th>Berço</th>
+                        <th>Situação</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${data.manobras.map(m => `
+                        <tr>
+                          <td>${m.nome}</td>
+                          <td>${m.data}</td>
+                          <td>${m.hora}</td>
+                          <td>${m.manobra}</td>
+                          <td><span class="berco-badge">${m.berco}</span></td>
+                          <td><span class="situacao-badge">${m.situacao}</span></td>
+                        </tr>
+                      `).join('')}
+                    </tbody>
+                  </table>
+                </div>
+              `
+              : `
+                <div class="empty-hint">
+                  <p>Nenhuma manobra programada no momento para os berços monitorados.</p>
+                </div>
+              `
+            }
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+      
+      // Close modal handlers
+      modal.querySelector('.modal-close').addEventListener('click', () => {
+        modal.remove();
+      });
+      
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.remove();
+        }
+      });
+    })
+    .catch(error => {
+      console.error('Erro ao carregar manobras:', error);
+      alert('Não foi possível carregar os dados das manobras. Por favor, tente novamente.');
+    });
 }
 
 // Configuração das escalas

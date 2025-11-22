@@ -1,0 +1,30 @@
+{
+  "ultima_atualizacao": "2025-11-22T13:28:29.664279",
+  "manobras": [
+    {
+      "nome": "NAVIO EXEMPLO 1",
+      "data": "22/11/2025",
+      "hora": "14:30",
+      "manobra": "ATRACAÇÃO",
+      "berco": "TUBP1N",
+      "situacao": "PROGRAMADA"
+    },
+    {
+      "nome": "NAVIO EXEMPLO 2",
+      "data": "22/11/2025",
+      "hora": "16:00",
+      "manobra": "DESATRACAÇÃO",
+      "berco": "PRMCV1",
+      "situacao": "CONFIRMADA"
+    },
+    {
+      "nome": "NAVIO EXEMPLO 3",
+      "data": "23/11/2025",
+      "hora": "08:00",
+      "manobra": "ATRACAÇÃO",
+      "berco": "TUBTGL",
+      "situacao": "PROGRAMADA"
+    }
+  ],
+  "total": 3
+}
