@@ -138,6 +138,27 @@ const segurancaLinks = [
     url: 'https://vale.plateau.com/learning/user/portal.do?siteID=VES_FOR_CONTRACTORS&landingPage=login',
     categoria: 'Portal',
     tag: 'TREINAMENTOS'
+  },
+  {
+    titulo: 'Pátio de Carvão',
+    descricao: 'Formulário de treinamento e integração para Pátio de Carvão.',
+    url: 'https://vale-forms.valeglobal.net/public?id=8g4XP6DS7NGjnuZSj%2FnleA%3D%3D&lang=pt-BR&need_auth=false',
+    categoria: 'Treinamento',
+    tag: 'TREINAMENTOS'
+  },
+  {
+    titulo: 'Píer de Carvão',
+    descricao: 'Formulário de treinamento e integração para Píer de Carvão.',
+    url: 'https://vale-forms.valeglobal.net/public?id=w9um%2BBUI9lQs0mIrGuGk5w%3D%3D&lang=pt-BR&need_auth=false',
+    categoria: 'Treinamento',
+    tag: 'TREINAMENTOS'
+  },
+  {
+    titulo: 'Porto Minério',
+    descricao: 'Formulário de treinamento e integração para Porto Minério.',
+    url: 'https://vale-forms.valeglobal.net/public?id=Q%2F9FQsStnJFQm67KaD44kQ%3D%3D&lang=pt-BR',
+    categoria: 'Treinamento',
+    tag: 'TREINAMENTOS'
   }
 ];
 
