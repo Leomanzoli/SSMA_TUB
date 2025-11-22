@@ -94,10 +94,17 @@ const segurancaLinks = [
     tag: 'GESTÃO'
   },
   {
-    titulo: 'Impressão de ARTs',
-    descricao: 'Aplicativo PowerApps para geração/impressão das ARTs.',
+    titulo: 'Cadastro de ARTs',
+    descricao: 'Aplicativo PowerApps para geração/cadastro das ARTs.',
     url: 'https://apps.powerapps.com/play/e/default-7893571b-6c2c-4cef-b4da-7d4b266a0626/a/4bd955ac-07d9-4ebd-a722-6c1e3260f758?tenantId=7893571b-6c2c-4cef-b4da-7d4b266a0626&sourcetime=1724266343911&source=portal',
     categoria: 'Aplicativo',
+    tag: 'GESTÃO'
+  },
+  {
+    titulo: 'Impressão de ARTs',
+    descricao: 'Relatório Power BI para impressão de ARTs cadastradas.',
+    url: 'https://app.powerbi.com/groups/me/apps/f1e0a66d-7fb8-481d-837f-121fc3dc59be/rdlreports/e8176833-ef86-4cd2-b6fe-7e369435df7b?ctid=7893571b-6c2c-4cef-b4da-7d4b266a0626&experience=power-bi',
+    categoria: 'Relatório',
     tag: 'ROTINA'
   },
   {
