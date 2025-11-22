@@ -270,14 +270,19 @@ const inspectionList = [
   { code: 'INSP_RAC06', name: 'RAC 06 - Espaços confinados' },
   { code: 'INSP_RAC05_G', name: 'RAC 05 - Guindastes sobre rodas e guindastes veiculares articulados' },
   { code: 'INSP_RAC10_PP', name: 'RAC 10 - Pessoas e procedimentos' },
-  { code: 'INSP_RAC01_A', name: 'RAC 01 - Andaimes' }
+  { code: 'INSP_RAC01_A', name: 'RAC 01 - Andaimes' },
+  { code: 'DIFERR_5S', name: 'Inspeção de 5S – Vale' },
+  { code: 'DIFERR_ART', name: 'Inspeção em ART - Diretoria de Ferrosos' },
+  { code: 'INSP_LIMP_IND_FC', name: 'Limpeza industrial (manual) - Fiscalização de Contratos' },
+  { code: 'INSP_PTS', name: 'Avaliação de Permissão de Trabalho Seguro (PTS)' }
 ];
 
 const inspectionListMeioAmbiente = [
   { code: 'DIFERR_MA_ADM', name: 'Inspeção de Meio Ambiente Administrativo - Diretoria de Operações' },
   { code: 'DIFERR_INCEND_FLOREST', name: 'Inspeção de Prevenção de Incêndio Florestal' },
   { code: 'DIFERR_MA_OPERACIONAL', name: 'Inspeção de Meio Ambiente Operacional - Diretoria de Operações' },
-  { code: 'DIFERR_PLANO_CHUVA', name: 'Inspeção de Plano de Chuvas' }
+  { code: 'DIFERR_PLANO_CHUVA', name: 'Inspeção de Plano de Chuvas' },
+  { code: 'DIFERR_5S', name: 'Inspeção de 5S – Vale' }
 ];
 
 const artList = [
