@@ -8,6 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 from datetime import datetime
+from zoneinfo import ZoneInfo
 import sys
 
 # URLs e configurações
@@ -88,8 +89,12 @@ def save_to_json(manobras):
         return False
     
     try:
+        # Usar horário de Brasília (UTC-3)
+        br_timezone = ZoneInfo("America/Sao_Paulo")
+        agora_br = datetime.now(br_timezone)
+        
         data_output = {
-            "ultima_atualizacao": datetime.now().isoformat(),
+            "ultima_atualizacao": agora_br.isoformat(),
             "total": len(manobras),
             "manobras": manobras
         }
