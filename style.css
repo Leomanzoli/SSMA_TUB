@@ -953,3 +953,231 @@ main {
 [data-theme="dark"] .scale-letter.night {
   background: #555;
 }
+
+/* Manobras Modal Styles */
+.manobras-btn {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  margin-top: 0.5rem;
+}
+
+.manobras-btn:hover {
+  background: linear-gradient(135deg, #218838, #1aa179);
+  transform: translateY(-1px);
+}
+
+.manobras-modal {
+  max-width: 900px;
+}
+
+.last-update {
+  background: var(--bg);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+}
+
+.manobras-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  background: var(--panel);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.manobras-table thead {
+  background: var(--primary);
+  color: #fff;
+}
+
+.manobras-table th {
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-bottom: 2px solid rgba(255,255,255,0.2);
+}
+
+.manobras-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+
+.manobras-table tbody tr:hover {
+  background: rgba(var(--primary-rgb), 0.05);
+}
+
+.manobras-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.status-previsto {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.status-confirmado {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status-cancelado {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.status-concluido {
+  background: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+.status-unknown {
+  background: #e2e3e5;
+  color: #383d41;
+  border: 1px solid #d6d8db;
+}
+
+[data-theme="dark"] .status-previsto {
+  background: #5a4a1a;
+  color: #ffc107;
+  border-color: #6c5a1f;
+}
+
+[data-theme="dark"] .status-confirmado {
+  background: #1a4a2a;
+  color: #28a745;
+  border-color: #2a5a3a;
+}
+
+[data-theme="dark"] .status-cancelado {
+  background: #4a1a1a;
+  color: #dc3545;
+  border-color: #5a2a2a;
+}
+
+[data-theme="dark"] .status-concluido {
+  background: #1a3a4a;
+  color: #17a2b8;
+  border-color: #2a4a5a;
+}
+
+[data-theme="dark"] .status-unknown {
+  background: #2a2a2a;
+  color: #aaa;
+  border-color: #3a3a3a;
+}
+
+.no-data {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-style: italic;
+}
+
+.modal-footer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+}
+
+.btn-refresh {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-refresh:hover:not(:disabled) {
+  background: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+}
+
+.btn-refresh:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-refresh svg {
+  animation: none;
+}
+
+.btn-refresh:disabled svg {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+  .manobras-table {
+    font-size: 0.75rem;
+  }
+  
+  .manobras-table th,
+  .manobras-table td {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .manobras-modal {
+    max-width: 95vw;
+  }
+  
+  .modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+}

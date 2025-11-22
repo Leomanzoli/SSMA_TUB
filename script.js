@@ -725,4 +725,219 @@ tabs.forEach(btn => {
   });
 });
 
+// Manobras Previstas - Card de Segurança
+let manobrasData = null;
+let manobrasLastUpdate = null;
+let lastFetchTime = 0;
+
+// Sanitize HTML to prevent XSS
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Validate and normalize status for CSS class
+function normalizeStatus(status) {
+  const validStatuses = ['previsto', 'confirmado', 'cancelado', 'concluido'];
+  const normalized = (status || '').toLowerCase();
+  return validStatuses.includes(normalized) ? normalized : 'unknown';
+}
+
+// Show toast notification
+function showToast(message, type = 'error') {
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  toast.textContent = message;
+  toast.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: ${type === 'error' ? '#dc3545' : '#28a745'};
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 10001;
+    animation: slideIn 0.3s ease;
+  `;
+  
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.animation = 'slideOut 0.3s ease';
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+async function loadManobrasData() {
+  try {
+    const url = new URL('data/manobras.json', window.location.href);
+    url.searchParams.set('t', Date.now());
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Erro ao carregar dados');
+    const data = await response.json();
+    manobrasData = data.manobras;
+    manobrasLastUpdate = data.lastUpdate;
+    lastFetchTime = Date.now();
+    return true;
+  } catch (error) {
+    console.error('Erro ao carregar manobras:', error);
+    return false;
+  }
+}
+
+function formatDateTime(isoString) {
+  if (!isoString) return 'N/A';
+  const date = new Date(isoString);
+  return date.toLocaleString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+function showManobrasModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  
+  const lastUpdateText = manobrasLastUpdate 
+    ? formatDateTime(manobrasLastUpdate)
+    : 'Não disponível';
+  
+  const manobrasHTML = manobrasData && manobrasData.length > 0
+    ? `
+      <table class="manobras-table">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Horário</th>
+            <th>Navio</th>
+            <th>Berço</th>
+            <th>Operação</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${manobrasData.map(m => `
+            <tr>
+              <td>${escapeHtml(m.data || '-')}</td>
+              <td>${escapeHtml(m.horario || '-')}</td>
+              <td>${escapeHtml(m.navio || '-')}</td>
+              <td>${escapeHtml(m.berco || '-')}</td>
+              <td>${escapeHtml(m.operacao || '-')}</td>
+              <td><span class="status-badge status-${normalizeStatus(m.status)}">${escapeHtml(m.status || '-')}</span></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `
+    : '<p class="no-data">Nenhuma manobra prevista no momento.</p>';
+  
+  modal.innerHTML = `
+    <div class="modal-content manobras-modal">
+      <div class="modal-header">
+        <h3>Card de Segurança - Manobras Previstas</h3>
+        <button class="modal-close" aria-label="Fechar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="last-update">
+          <strong>Última atualização:</strong> ${lastUpdateText}
+        </div>
+        ${manobrasHTML}
+        <div class="modal-footer">
+          <button class="btn-refresh" id="refresh-manobras">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+            </svg>
+            Atualizar Dados
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Fechar modal
+  modal.querySelector('.modal-close').addEventListener('click', () => {
+    modal.remove();
+  });
+  
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
+  
+  // Botão de atualizar
+  modal.querySelector('#refresh-manobras').addEventListener('click', async function() {
+    this.disabled = true;
+    this.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg> Atualizando...';
+    
+    const success = await loadManobrasData();
+    
+    if (success) {
+      modal.remove();
+      showManobrasModal();
+      showToast('Dados atualizados com sucesso!', 'success');
+    } else {
+      showToast('Erro ao atualizar dados. Tente novamente.');
+      this.disabled = false;
+      this.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg> Atualizar Dados';
+    }
+  });
+}
+
+// Carregar dados ao iniciar
+loadManobrasData();
+
+// Atualizar dados automaticamente a cada 15 minutos, mas apenas quando a página está visível
+let updateInterval;
+
+function startAutoUpdate() {
+  if (updateInterval) clearInterval(updateInterval);
+  updateInterval = setInterval(() => {
+    if (!document.hidden) {
+      loadManobrasData();
+    }
+  }, 15 * 60 * 1000);
+}
+
+startAutoUpdate();
+
+// Pausar/retomar atualização automática baseado na visibilidade da página
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) {
+    // Página ficou visível novamente
+    // Apenas atualizar se os dados estão obsoletos (mais de 5 minutos)
+    const timeSinceLastUpdate = Date.now() - lastFetchTime;
+    if (timeSinceLastUpdate > 5 * 60 * 1000) {
+      loadManobrasData();
+    }
+    startAutoUpdate();
+  }
+});
+
+// Event listener para botão de manobras
+const manobrasBtn = document.getElementById('open-manobras-btn');
+if (manobrasBtn) {
+  manobrasBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    if (!manobrasData) {
+      loadManobrasData().then(success => {
+        if (success) {
+          showManobrasModal();
+        } else {
+          showToast('Erro ao carregar dados de manobras. Tente novamente.');
+        }
+      });
+    } else {
+      showManobrasModal();
+    }
+  });
+}
+
 // Futuro: fetch('data/links.json').then(...)
