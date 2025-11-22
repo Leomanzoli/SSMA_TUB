@@ -255,7 +255,7 @@ const artList = [
   { id: '146211', area: 'MECÂNICA', description: 'FABRICAÇÃO E INSTALAÇÃO DE PEÇAS METÁLICAS (CALDEIRARIA)' },
   { id: '105629', area: 'MECÂNICA', description: 'SUBTITUIÇÃO DE TUBULAÇÃO' },
   { id: '103488', area: 'MECÂNICA', description: 'UTILIZAÇÃO DE FERRAMENTAS DE GOLPE' },
-  { id: '41961', area: 'OPERAÇÃO', description: 'OPERAR ROÇADEIRA MECANIZADA' },
+  { id: '41961', area: 'ROÇADEIRA', description: 'OPERAR ROÇADEIRA MECANIZADA' },
   { id: '41967', area: 'PINTURA', description: 'PINTURAS EM GERAL' }
 ];
 
