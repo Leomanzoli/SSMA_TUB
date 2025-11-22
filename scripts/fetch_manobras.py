@@ -56,7 +56,7 @@ def save_manobras_data(data):
     """Save manobras data to JSON file."""
     output = {
         "lastUpdate": datetime.now(timezone.utc).isoformat(),
-        "manobras": data
+        "manobras": data if data else []
     }
     
     # Ensure data directory exists
@@ -68,7 +68,7 @@ def save_manobras_data(data):
         json.dump(output, f, ensure_ascii=False, indent=2)
     
     print(f"✅ Data saved to {output_path}")
-    print(f"📊 Total manobras: {len(data)}")
+    print(f"📊 Total manobras: {len(data) if data else 0}")
     print(f"🕒 Last update: {output['lastUpdate']}")
 
 

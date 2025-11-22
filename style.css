@@ -1049,6 +1049,12 @@ main {
   border: 1px solid #bee5eb;
 }
 
+.status-unknown {
+  background: #e2e3e5;
+  color: #383d41;
+  border: 1px solid #d6d8db;
+}
+
 [data-theme="dark"] .status-previsto {
   background: #5a4a1a;
   color: #ffc107;
@@ -1071,6 +1077,12 @@ main {
   background: #1a3a4a;
   color: #17a2b8;
   border-color: #2a4a5a;
+}
+
+[data-theme="dark"] .status-unknown {
+  background: #2a2a2a;
+  color: #aaa;
+  border-color: #3a3a3a;
 }
 
 .no-data {

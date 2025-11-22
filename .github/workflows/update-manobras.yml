@@ -42,7 +42,7 @@ jobs:
           else
             git commit -m "🔄 Auto-update manobras data"
             git push || {
-              echo "Failed to push changes"
+              echo "Failed to push manobras data update to repository"
               exit 1
             }
           fi

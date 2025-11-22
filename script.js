@@ -728,12 +728,20 @@ tabs.forEach(btn => {
 // Manobras Previstas - Card de Segurança
 let manobrasData = null;
 let manobrasLastUpdate = null;
+let lastFetchTime = 0;
 
 // Sanitize HTML to prevent XSS
 function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
+}
+
+// Validate and normalize status for CSS class
+function normalizeStatus(status) {
+  const validStatuses = ['previsto', 'confirmado', 'cancelado', 'concluido'];
+  const normalized = (status || '').toLowerCase();
+  return validStatuses.includes(normalized) ? normalized : 'unknown';
 }
 
 // Show toast notification
@@ -764,11 +772,14 @@ function showToast(message, type = 'error') {
 
 async function loadManobrasData() {
   try {
-    const response = await fetch('data/manobras.json?t=' + Date.now());
+    const url = new URL('data/manobras.json', window.location.href);
+    url.searchParams.set('t', Date.now());
+    const response = await fetch(url);
     if (!response.ok) throw new Error('Erro ao carregar dados');
     const data = await response.json();
     manobrasData = data.manobras;
     manobrasLastUpdate = data.lastUpdate;
+    lastFetchTime = Date.now();
     return true;
   } catch (error) {
     console.error('Erro ao carregar manobras:', error);
@@ -817,7 +828,7 @@ function showManobrasModal() {
               <td>${escapeHtml(m.navio || '-')}</td>
               <td>${escapeHtml(m.berco || '-')}</td>
               <td>${escapeHtml(m.operacao || '-')}</td>
-              <td><span class="status-badge status-${escapeHtml((m.status || '').toLowerCase())}">${escapeHtml(m.status || '-')}</span></td>
+              <td><span class="status-badge status-${normalizeStatus(m.status)}">${escapeHtml(m.status || '-')}</span></td>
             </tr>
           `).join('')}
         </tbody>
@@ -900,8 +911,12 @@ startAutoUpdate();
 // Pausar/retomar atualização automática baseado na visibilidade da página
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden) {
-    // Página ficou visível novamente, atualizar dados e reiniciar intervalo
-    loadManobrasData();
+    // Página ficou visível novamente
+    // Apenas atualizar se os dados estão obsoletos (mais de 5 minutos)
+    const timeSinceLastUpdate = Date.now() - lastFetchTime;
+    if (timeSinceLastUpdate > 5 * 60 * 1000) {
+      loadManobrasData();
+    }
     startAutoUpdate();
   }
 });
