@@ -16,10 +16,10 @@
   --primary: #3d9bff;
   --primary-rgb: 61,155,255;
   --accent: #ff4757;
-  --bg: #0f1419;
-  --panel: #1a1f29;
-  --text: #e4e6eb;
-  --border: #2d333d;
+  --bg: #0d1117;
+  --panel: #161b22;
+  --text: #e6edf3;
+  --border: #30363d;
   --focus: #ffd700;
   --gradient: linear-gradient(135deg, #1e3a5f, #2a4a7a 55%, #1e3a5f 100%);
   color-scheme: dark;
@@ -153,7 +153,8 @@ main {
   border: 2px solid var(--border);
   border-radius: var(--radius);
   font-size: 1rem;
-  background: #fff;
+  background: var(--panel);
+  color: var(--text);
   width: 100%;
   transition: border-color .25s, box-shadow .25s;
 }
@@ -165,7 +166,7 @@ main {
 }
 
 .info-box {
-  background: #fff;
+  background: var(--panel);
   border: 1px solid var(--border);
   padding: 0.65rem 0.9rem;
   border-radius: var(--radius);
@@ -173,6 +174,7 @@ main {
   display: inline-flex;
   gap: .5rem;
   align-items: center;
+  color: var(--text);
 }
 
 .tel { font-weight: 600; color: var(--accent); text-decoration: none; }
@@ -206,7 +208,7 @@ main {
 }
 
 .filter-tag {
-  background: #fff;
+  background: var(--panel);
   border: 2px solid var(--border);
   color: var(--text);
   padding: 0.5rem 1rem;
@@ -240,7 +242,7 @@ main {
 }
 
 .card {
-  background: #fff;
+  background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 1rem 0.95rem 1rem;
@@ -281,6 +283,10 @@ main {
   font-size: 0.8rem;
   line-height: 1.25;
   color: #4a566d;
+}
+
+[data-theme="dark"] .card p {
+  color: #8b949e;
 }
 
 .actions {
