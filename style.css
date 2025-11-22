@@ -694,7 +694,18 @@ main {
     max-width: 95vw;
     max-height: 90vh;
     overflow-y: auto;
-    padding: 1rem;
+    padding: 0.5rem;
+    width: 95vw;
+  }
+  
+  .modal-body {
+    padding: 0.5rem;
+    overflow-x: hidden;
+  }
+  
+  .calendar-container {
+    width: 100%;
+    overflow-x: hidden;
   }
   
   .calendar-header {
@@ -702,57 +713,62 @@ main {
   }
   
   .calendar-header h4 {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
   
   .calendar-nav {
-    padding: 0.3rem 0.6rem;
-    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.9rem;
   }
   
   .calendar-weekdays {
-    font-size: 0.7rem;
-    gap: 2px;
+    font-size: 0.65rem;
+    gap: 1px;
   }
   
   .calendar-days {
     grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
+    gap: 1px;
+    width: 100%;
   }
   
   .calendar-day {
-    padding: 0.2rem;
-    min-height: 65px;
+    padding: 0.15rem;
+    min-height: 60px;
+    font-size: 0.6rem;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .day-number {
-    font-size: 0.7rem;
-    margin-bottom: 0.2rem;
+    font-size: 0.65rem;
+    margin-bottom: 0.15rem;
   }
   
   .day-scales {
-    gap: 0.15rem;
+    gap: 0.1rem;
   }
   
   .scale-row {
-    gap: 0.15rem;
+    gap: 0.1rem;
+    flex-wrap: nowrap;
   }
   
   .scale-label {
-    font-size: 0.5rem;
-    min-width: 18px;
+    font-size: 0.48rem;
+    min-width: 16px;
   }
   
   .scale-letter {
-    font-size: 0.55rem;
+    font-size: 0.5rem;
     padding: 1px 2px;
-    min-width: 14px;
+    min-width: 12px;
   }
   
   .calendar-legend {
-    font-size: 0.7rem;
-    gap: 0.75rem;
-    padding: 0.5rem;
+    font-size: 0.65rem;
+    gap: 0.5rem;
+    padding: 0.4rem;
     justify-content: center;
   }
 }
