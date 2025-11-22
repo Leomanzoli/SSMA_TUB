@@ -12,6 +12,19 @@
   color-scheme: light;
 }
 
+[data-theme="dark"] {
+  --primary: #3d9bff;
+  --primary-rgb: 61,155,255;
+  --accent: #ff4757;
+  --bg: #0f1419;
+  --panel: #1a1f29;
+  --text: #e4e6eb;
+  --border: #2d333d;
+  --focus: #ffd700;
+  --gradient: linear-gradient(135deg, #1e3a5f, #2a4a7a 55%, #1e3a5f 100%);
+  color-scheme: dark;
+}
+
 * { box-sizing: border-box; }
 
 body {
@@ -40,10 +53,59 @@ body {
 
 .subtitle { margin: 0; font-weight: 500; opacity: 0.9; }
 
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 .main-nav {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+  flex: 1;
+}
+
+.theme-toggle {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.4);
+  color: #fff;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  background: rgba(255,255,255,0.35);
+  transform: rotate(20deg);
+}
+
+.theme-toggle:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.theme-toggle .sun-icon {
+  display: block;
+}
+
+.theme-toggle .moon-icon {
+  display: none;
+}
+
+[data-theme="dark"] .theme-toggle .sun-icon {
+  display: none;
+}
+
+[data-theme="dark"] .theme-toggle .moon-icon {
+  display: block;
 }
 
 .nav-btn {
@@ -329,7 +391,7 @@ main {
 }
 
 .modal-content {
-  background: #fff;
+  background: var(--panel);
   border-radius: 16px;
   max-width: 650px;
   width: 100%;
@@ -358,7 +420,7 @@ main {
   background: none;
   border: none;
   font-size: 2rem;
-  color: #666;
+  color: var(--text);
   cursor: pointer;
   width: 36px;
   height: 36px;
@@ -368,10 +430,12 @@ main {
   border-radius: 50%;
   transition: background 0.2s;
   line-height: 1;
+  opacity: 0.7;
 }
 
 .modal-close:hover {
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(var(--primary-rgb), 0.15);
+  opacity: 1;
 }
 
 .modal-body {
@@ -388,6 +452,8 @@ main {
   font-size: 0.95rem;
   margin-bottom: 1rem;
   transition: border-color 0.25s;
+  background: var(--bg);
+  color: var(--text);
 }
 
 .inspection-search:focus {
