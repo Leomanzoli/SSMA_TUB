@@ -202,7 +202,8 @@ const meioAmbienteLinks = [
     descricao: 'Portal IRIS para registro de inspeções ambientais.',
     url: 'https://iris.valeglobal.net/login',
     categoria: 'Formulário',
-    tag: 'ROTINA'
+    tag: 'ROTINA',
+    hasInspectionListMA: true
   },
   {
     titulo: 'DBC',
@@ -261,6 +262,13 @@ const inspectionList = [
   { code: 'INSP_RAC05_G', name: 'RAC 05 - Guindastes sobre rodas e guindastes veiculares articulados' },
   { code: 'INSP_RAC10_PP', name: 'RAC 10 - Pessoas e procedimentos' },
   { code: 'INSP_RAC01_A', name: 'RAC 01 - Andaimes' }
+];
+
+const inspectionListMeioAmbiente = [
+  { code: 'DIFERR_MA_ADM', name: 'Inspeção de Meio Ambiente Administrativo - Diretoria de Operações' },
+  { code: 'DIFERR_INCEND_FLOREST', name: 'Inspeção de Prevenção de Incêndio Florestal' },
+  { code: 'DIFERR_MA_OPERACIONAL', name: 'Inspeção de Meio Ambiente Operacional - Diretoria de Operações' },
+  { code: 'DIFERR_PLANO_CHUVA', name: 'Inspeção de Plano de Chuvas' }
 ];
 
 const artList = [
@@ -493,6 +501,80 @@ function showInspectionModal() {
   
   // Busca dentro do modal
   const searchInput = modal.querySelector('#inspection-search');
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase();
+    modal.querySelectorAll('.inspection-item').forEach(item => {
+      const searchText = item.dataset.search || '';
+      item.style.display = searchText.includes(query) ? 'flex' : 'none';
+    });
+  });
+  
+  // Copiar código
+  modal.querySelectorAll('.btn-copy').forEach(btn => {
+    btn.addEventListener('click', async function() {
+      const code = this.dataset.code;
+      try {
+        await navigator.clipboard.writeText(code);
+        this.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Copiado!';
+        this.style.background = '#28a745';
+        setTimeout(() => {
+          this.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copiar';
+          this.style.background = '';
+        }, 2000);
+      } catch (err) {
+        alert('Erro ao copiar: ' + err);
+      }
+    });
+  });
+}
+
+function showInspectionModalMA() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Lista de Inspeções - Meio Ambiente</h3>
+        <button class="modal-close" aria-label="Fechar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="search" id="inspection-search-ma" placeholder="Buscar inspeção..." class="inspection-search" />
+        <div class="inspection-list">
+          ${inspectionListMeioAmbiente.map(insp => `
+            <div class="inspection-item" data-search="${insp.code.toLowerCase()} ${insp.name.toLowerCase()}">
+              <div class="inspection-info">
+                <strong>${insp.code}</strong>
+                <span>${insp.name}</span>
+              </div>
+              <button class="btn-copy" data-code="${insp.code}" title="Copiar código">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                Copiar
+              </button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Fechar modal
+  modal.querySelector('.modal-close').addEventListener('click', () => {
+    modal.remove();
+  });
+  
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
+  
+  // Busca dentro do modal
+  const searchInput = modal.querySelector('#inspection-search-ma');
   searchInput.addEventListener('input', (e) => {
     const query = e.target.value.toLowerCase();
     modal.querySelectorAll('.inspection-item').forEach(item => {
@@ -825,6 +907,10 @@ function renderMeioAmbiente() {
             ? `<a class="btn-link" href="${link.url}" target="_blank" rel="noopener noreferrer" aria-label="Abrir link: ${link.titulo}">Abrir</a>`
             : `<span class="btn-link secondary" title="Link não fornecido">Indisponível</span>`
           }
+          ${link.hasInspectionListMA 
+            ? `<button class="btn-link secondary inspection-list-btn-ma" aria-label="Ver lista de inspeções de meio ambiente">Lista de Inspeções</button>`
+            : ''
+          }
         </div>
       `;
     }
@@ -851,6 +937,14 @@ function renderMeioAmbiente() {
         text.textContent = 'Ver opções';
         card.style.minHeight = '140px';
       }
+    });
+  });
+  
+  // Event listener para botões de lista de inspeções de meio ambiente
+  document.querySelectorAll('.inspection-list-btn-ma').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      showInspectionModalMA();
     });
   });
 }
