@@ -706,16 +706,14 @@ function showArtModal() {
 // Amostragem confirmada:
 // 21-22/11: dia=3 noite=1 | 23-24/11: dia=2 noite=4 | 25-26/11: dia=3 noite=1 | 27-28/11: dia=2 noite=4 | 29-30/11: dia=3 noite=1 ...
 const scaleConfig = {
-  referenceDate: new Date(2025, 10, 21), // 21 de novembro de 2025 (ajuste para segurança)
+  referenceDate: new Date(2025, 10, 22), // 22 de novembro de 2025
   operation: {
-    morning: ['C', 'C', 'D', 'D', 'A', 'A', 'B', 'B'], // Ciclo de 8 dias
-    night: ['A', 'A', 'B', 'B', 'C', 'C', 'D', 'D']
+    morning: ['C', 'C', 'B', 'B', 'C', 'C', 'B', 'B'], // Ciclo de 8 dias
+    night: ['A', 'A', 'D', 'D', 'A', 'A', 'D', 'D']
   },
   safety: {
-    // Ciclo 4 dias expandido em 8 posições para compatibilidade com lógica existente:
-    // Índices 0-1: 3/1 | 2-3: 2/4 | 4-5: 3/1 | 6-7: 2/4
-    day:  ['3', '3', '2', '2', '3', '3', '2', '2'],
-    night:['1', '1', '4', '4', '1', '1', '4', '4']
+    day:  ['3', '2', '2', '3', '3', '2', '2', '3'],
+    night:['1', '4', '4', '1', '1', '4', '4', '1']
   }
 };
 
