@@ -102,7 +102,7 @@ const segurancaLinks = [
     descricao: 'Dashboard do Programa Tutor.',
     url: 'https://app.powerbi.com/groups/me/apps/c6b7ad92-428f-4ce8-a17b-5e57be6ebdad/reports/c20236ef-2e92-4d92-9559-6482fab042c4/ReportSectione9aa759ab59550b8ac99?experience=power-bi&bookmarkGuid=9d682296d5f62e7bc084',
     categoria: 'Dashboard',
-    tag: 'ROTINA'
+    tag: 'GESTÃO'
   },
   {
     titulo: 'Painel de Inspeções',
