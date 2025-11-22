@@ -167,6 +167,73 @@ const segurancaLinks = [
     url: 'https://vale-forms.valeglobal.net/public?id=Q%2F9FQsStnJFQm67KaD44kQ%3D%3D&lang=pt-BR',
     categoria: 'Treinamento',
     tag: 'TREINAMENTOS'
+  },
+  {
+    titulo: 'SGC',
+    descricao: 'Sistema de Gestão de Conformidade - Gestão de processos e conformidade.',
+    url: 'https://valesgc.valeglobal.net/SGCMOB/#/main/home',
+    categoria: 'Sistema',
+    tag: 'GESTÃO'
+  }
+];
+
+// Links de Saúde
+const saudeLinks = [
+  {
+    titulo: 'Absenteísmo',
+    descricao: 'Formulário para registro e controle de absenteísmo.',
+    url: 'https://forms.office.com/e/svUMpmD1dH',
+    categoria: 'Formulário',
+    tag: 'ROTINA'
+  },
+  {
+    titulo: 'Questionário de Saúde',
+    descricao: 'Questionário de saúde ocupacional para preenchimento.',
+    url: 'https://forms.office.com/e/svUMpmD1dH',
+    categoria: 'Formulário',
+    tag: 'GESTÃO'
+  }
+];
+
+// Links de Meio Ambiente
+const meioAmbienteLinks = [
+  {
+    titulo: 'Inspeções',
+    descricao: 'Portal IRIS para registro de inspeções ambientais.',
+    url: 'https://iris.valeglobal.net/login',
+    categoria: 'Formulário',
+    tag: 'ROTINA'
+  },
+  {
+    titulo: 'DBC',
+    descricao: 'Formulários de diagnóstico e dados comportamentais (DBC).',
+    categoria: 'Formulário',
+    tag: 'ROTINA',
+    expandable: true,
+    subopcoes: [
+      {
+        titulo: 'TE - Teste de Eficiência Geral',
+        url: 'https://vale-forms.valeglobal.net/public?id=89tgFjrT8sWB6U7jbAcWYQ%3d%3d&lang=pt-BR&need_auth=false'
+      },
+      {
+        titulo: 'DT - Diagnóstico Técnico',
+        url: 'https://vale-forms.valeglobal.net/public?id=v5W%2bBuuTI4HEm9JBbmccmQ%3d%3d&lang=pt-BR&need_auth=false'
+      }
+    ]
+  },
+  {
+    titulo: 'VES',
+    descricao: 'Acesso ao portal de treinamentos Vale.',
+    url: 'https://vale.plateau.com/learning/user/portal.do?siteID=VES_FOR_CONTRACTORS&landingPage=login',
+    categoria: 'Portal',
+    tag: 'TREINAMENTOS'
+  },
+  {
+    titulo: 'SISPAV',
+    descricao: 'Diretório dos Procedimentos Vale.',
+    url: 'https://vale.softexpert.com/softexpert/workspace?page=home',
+    categoria: 'Sistema',
+    tag: 'DOCUMENTOS'
   }
 ];
 
@@ -691,6 +758,105 @@ function showCalendarModal() {
 }
 
 renderSeguranca();
+
+// Função para renderizar links de Saúde
+function renderSaude() {
+  const cont = document.getElementById('saude-links');
+  if (!cont) return;
+  cont.innerHTML = '';
+  
+  saudeLinks.forEach((link) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.search = (link.titulo + ' ' + link.descricao + ' ' + (link.categoria || '') + ' ' + (link.tag || '')).toLowerCase();
+    
+    card.innerHTML = `
+      <h3>${link.titulo} ${link.tag ? `<span class="badge">${link.tag}</span>` : ''}</h3>
+      <p>${link.descricao}</p>
+      <div class="actions">
+        ${link.url
+          ? `<a class="btn-link" href="${link.url}" target="_blank" rel="noopener noreferrer" aria-label="Abrir link: ${link.titulo}">Abrir</a>`
+          : `<span class="btn-link secondary" title="Link não fornecido">Indisponível</span>`
+        }
+      </div>
+    `;
+    cont.appendChild(card);
+  });
+}
+
+// Função para renderizar links de Meio Ambiente
+function renderMeioAmbiente() {
+  const cont = document.getElementById('meio-ambiente-links');
+  if (!cont) return;
+  cont.innerHTML = '';
+  
+  meioAmbienteLinks.forEach((link, index) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.search = (link.titulo + ' ' + link.descricao + ' ' + (link.categoria || '') + ' ' + (link.tag || '')).toLowerCase();
+    
+    if (link.expandable && link.subopcoes) {
+      // Card expansível
+      card.innerHTML = `
+        <h3>${link.titulo} ${link.tag ? `<span class="badge">${link.tag}</span>` : ''}</h3>
+        <p>${link.descricao}</p>
+        <div class="actions">
+          <button class="btn-link expand-btn-ma" data-card-index="${index}" aria-label="Expandir opções">
+            <span class="expand-text">Ver opções</span>
+            <span class="expand-icon">▼</span>
+          </button>
+        </div>
+        <div class="subopcoes" style="display: none;">
+          ${link.subopcoes.map(sub => `
+            <div class="subopcao-item">
+              <strong>${sub.titulo}</strong>
+              <a class="btn-link" href="${sub.url}" target="_blank" rel="noopener noreferrer">Abrir</a>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    } else {
+      // Card normal
+      card.innerHTML = `
+        <h3>${link.titulo} ${link.tag ? `<span class="badge">${link.tag}</span>` : ''}</h3>
+        <p>${link.descricao}</p>
+        <div class="actions">
+          ${link.url
+            ? `<a class="btn-link" href="${link.url}" target="_blank" rel="noopener noreferrer" aria-label="Abrir link: ${link.titulo}">Abrir</a>`
+            : `<span class="btn-link secondary" title="Link não fornecido">Indisponível</span>`
+          }
+        </div>
+      `;
+    }
+    cont.appendChild(card);
+  });
+  
+  // Event listeners para botões de expansão
+  document.querySelectorAll('.expand-btn-ma').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const card = this.closest('.card');
+      const subopcoes = card.querySelector('.subopcoes');
+      const icon = this.querySelector('.expand-icon');
+      const text = this.querySelector('.expand-text');
+      
+      if (subopcoes.style.display === 'none') {
+        subopcoes.style.display = 'block';
+        icon.textContent = '▲';
+        text.textContent = 'Ocultar opções';
+        card.style.minHeight = 'auto';
+      } else {
+        subopcoes.style.display = 'none';
+        icon.textContent = '▼';
+        text.textContent = 'Ver opções';
+        card.style.minHeight = '140px';
+      }
+    });
+  });
+}
+
+renderSaude();
+renderMeioAmbiente();
 
 // Event listener para botão de calendário global
 const calendarBtn = document.getElementById('open-calendar-btn');
