@@ -9,11 +9,19 @@ const htmlElement = document.documentElement;
 const savedTheme = localStorage.getItem('theme') || 'light';
 htmlElement.setAttribute('data-theme', savedTheme);
 
-themeToggle.addEventListener('click', () => {
+// Função para alternar tema
+function toggleTheme() {
   const currentTheme = htmlElement.getAttribute('data-theme');
   const newTheme = currentTheme === 'light' ? 'dark' : 'light';
   htmlElement.setAttribute('data-theme', newTheme);
   localStorage.setItem('theme', newTheme);
+}
+
+// Suporte para touch e click
+themeToggle.addEventListener('click', toggleTheme);
+themeToggle.addEventListener('touchend', (e) => {
+  e.preventDefault();
+  toggleTheme();
 });
 
 const tabs = document.querySelectorAll('.nav-btn');

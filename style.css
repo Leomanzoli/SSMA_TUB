@@ -80,11 +80,18 @@ body {
   justify-content: center;
   transition: all 0.3s;
   flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .theme-toggle:hover {
   background: rgba(255,255,255,0.35);
   transform: rotate(20deg);
+}
+
+.theme-toggle:active {
+  background: rgba(255,255,255,0.45);
+  transform: scale(0.95);
 }
 
 .theme-toggle:focus-visible {
@@ -601,4 +608,23 @@ main {
 @media (max-width: 640px) {
   .cards { grid-template-columns: minmax(0, 1fr); }
   .nav-btn { flex: 1 1 auto; text-align: center; }
+  
+  .header-controls {
+    width: 100%;
+  }
+  
+  .main-nav {
+    width: 100%;
+  }
+  
+  .theme-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+  }
+  
+  .branding {
+    padding-right: 50px;
+  }
 }
