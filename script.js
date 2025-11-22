@@ -725,4 +725,150 @@ tabs.forEach(btn => {
   });
 });
 
+// Manobras Previstas - Card de Segurança
+let manobrasData = null;
+let manobrasLastUpdate = null;
+
+async function loadManobrasData() {
+  try {
+    const response = await fetch('data/manobras.json?t=' + Date.now());
+    if (!response.ok) throw new Error('Erro ao carregar dados');
+    const data = await response.json();
+    manobrasData = data.manobras;
+    manobrasLastUpdate = data.lastUpdate;
+    return true;
+  } catch (error) {
+    console.error('Erro ao carregar manobras:', error);
+    return false;
+  }
+}
+
+function formatDateTime(isoString) {
+  if (!isoString) return 'N/A';
+  const date = new Date(isoString);
+  return date.toLocaleString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+function showManobrasModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  
+  const lastUpdateText = manobrasLastUpdate 
+    ? formatDateTime(manobrasLastUpdate)
+    : 'Não disponível';
+  
+  const manobrasHTML = manobrasData && manobrasData.length > 0
+    ? `
+      <table class="manobras-table">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Horário</th>
+            <th>Navio</th>
+            <th>Berço</th>
+            <th>Operação</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${manobrasData.map(m => `
+            <tr>
+              <td>${m.data || '-'}</td>
+              <td>${m.horario || '-'}</td>
+              <td>${m.navio || '-'}</td>
+              <td>${m.berco || '-'}</td>
+              <td>${m.operacao || '-'}</td>
+              <td><span class="status-badge status-${(m.status || '').toLowerCase()}">${m.status || '-'}</span></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `
+    : '<p class="no-data">Nenhuma manobra prevista no momento.</p>';
+  
+  modal.innerHTML = `
+    <div class="modal-content manobras-modal">
+      <div class="modal-header">
+        <h3>Card de Segurança - Manobras Previstas</h3>
+        <button class="modal-close" aria-label="Fechar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="last-update">
+          <strong>Última atualização:</strong> ${lastUpdateText}
+        </div>
+        ${manobrasHTML}
+        <div class="modal-footer">
+          <button class="btn-refresh" id="refresh-manobras">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+            </svg>
+            Atualizar Dados
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Fechar modal
+  modal.querySelector('.modal-close').addEventListener('click', () => {
+    modal.remove();
+  });
+  
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
+  
+  // Botão de atualizar
+  modal.querySelector('#refresh-manobras').addEventListener('click', async function() {
+    this.disabled = true;
+    this.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg> Atualizando...';
+    
+    const success = await loadManobrasData();
+    
+    if (success) {
+      modal.remove();
+      showManobrasModal();
+    } else {
+      alert('Erro ao atualizar dados. Tente novamente.');
+      this.disabled = false;
+      this.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg> Atualizar Dados';
+    }
+  });
+}
+
+// Carregar dados ao iniciar
+loadManobrasData();
+
+// Atualizar dados automaticamente a cada 15 minutos
+setInterval(loadManobrasData, 15 * 60 * 1000);
+
+// Event listener para botão de manobras
+const manobrasBtn = document.getElementById('open-manobras-btn');
+if (manobrasBtn) {
+  manobrasBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    if (!manobrasData) {
+      loadManobrasData().then(success => {
+        if (success) {
+          showManobrasModal();
+        } else {
+          alert('Erro ao carregar dados de manobras. Tente novamente.');
+        }
+      });
+    } else {
+      showManobrasModal();
+    }
+  });
+}
+
 // Futuro: fetch('data/links.json').then(...)

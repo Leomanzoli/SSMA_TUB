@@ -1,0 +1,21 @@
+{
+  "lastUpdate": "2025-11-22T13:32:16.440304+00:00",
+  "manobras": [
+    {
+      "data": "22/11/2025",
+      "horario": "08:00",
+      "navio": "NAVIO EXEMPLO 1",
+      "berco": "PIER 1",
+      "operacao": "ATRACAÇÃO",
+      "status": "PREVISTO"
+    },
+    {
+      "data": "22/11/2025",
+      "horario": "14:00",
+      "navio": "NAVIO EXEMPLO 2",
+      "berco": "PIER 2",
+      "operacao": "DESATRACAÇÃO",
+      "status": "PREVISTO"
+    }
+  ]
+}
