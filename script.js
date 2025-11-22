@@ -828,7 +828,10 @@ function showCalendarModal() {
             <option value="B">Escala B</option>
             <option value="C">Escala C</option>
             <option value="D">Escala D</option>
-            <option value="E">Escala E</option>
+            <option value="1">Escala 1</option>
+            <option value="2">Escala 2</option>
+            <option value="3">Escala 3</option>
+            <option value="4">Escala 4</option>
           </select>
         </div>
         <div class="calendar-legend">
