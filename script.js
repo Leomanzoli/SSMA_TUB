@@ -25,7 +25,8 @@ const segurancaLinks = [
     descricao: 'Portal IRIS para registro de N3 e Permissão de Trabalho em Manutenção/Contrato.',
     url: 'https://iris.valeglobal.net/login',
     categoria: 'Formulário',
-    tag: 'ROTINA'
+    tag: 'ROTINA',
+    hasInspectionList: true
   },
   {
     titulo: 'DBC',
@@ -116,6 +117,32 @@ const segurancaLinks = [
   }
 ];
 
+const inspectionList = [
+  { code: 'INSP_RAC10_PE', name: 'RAC 10 - Planejamento e execução' },
+  { code: 'INSP_RAC08_P', name: 'RAC 08 - Pilhas' },
+  { code: 'INSP_RAC09_T', name: 'RAC 09 - Transporte' },
+  { code: 'INSP_RAC10_IE', name: 'RAC 10 - Instalações e equipamentos' },
+  { code: 'INSP_RAC08_ES', name: 'RAC 08 - Escavação subterrânea' },
+  { code: 'INSP_RAC08_CT', name: 'RAC 08 - Cavas e taludes' },
+  { code: 'INSP_RAC02_VO', name: 'RAC 02 - Veículos que acessam área operacional' },
+  { code: 'INSP_RAC03_EM', name: 'RAC 03 - Motoniveladoras, escrêipes, pás carregadeiras, retroescavadeiras, escavadeiras e tratores' },
+  { code: 'INSP_RAC01_EP', name: 'RAC 01 - Escadas móveis e plataformas' },
+  { code: 'INSP_RAC05_PR', name: 'RAC 05 - Pontes rolantes, monovias e talhas' },
+  { code: 'INSP_RAC03_OC', name: 'RAC 03 - Outros caminhões' },
+  { code: 'INSP_RAC03_CV', name: 'RAC 03 - Condições de vias operacionais' },
+  { code: 'INSP_RAC09_A', name: 'RAC 09 - Armazenamento' },
+  { code: 'INSP_RAC01_RG', name: 'RAC 01 - Requisitos gerais - Aberturas (grades de piso, guarda-corpo e alçapões)' },
+  { code: 'INSP_RAC07', name: 'RAC 07 - Proteção de máquinas' },
+  { code: 'INSP_RAC09_E', name: 'RAC 09 - Execução' },
+  { code: 'INSP_RAC05_O', name: 'RAC 05 - Outros dispositivos ou equipamentos de içamento' },
+  { code: 'INSP_RAC04_IB', name: 'RAC 04 - Identificação, bloqueio e zero energia' },
+  { code: 'INSP_RAC02_CV', name: 'RAC 02 - Condições de vias operacionais' },
+  { code: 'INSP_RAC06', name: 'RAC 06 - Espaços confinados' },
+  { code: 'INSP_RAC05_G', name: 'RAC 05 - Guindastes sobre rodas e guindastes veiculares articulados' },
+  { code: 'INSP_RAC10_PP', name: 'RAC 10 - Pessoas e procedimentos' },
+  { code: 'INSP_RAC01_A', name: 'RAC 01 - Andaimes' }
+];
+
 function renderSeguranca() {
   const cont = document.getElementById('seguranca-links');
   if (!cont) return;
@@ -156,6 +183,10 @@ function renderSeguranca() {
             ? `<a class="btn-link" href="${link.url}" target="_blank" rel="noopener noreferrer" aria-label="Abrir link: ${link.titulo}">Abrir</a>`
             : `<span class="btn-link secondary" title="Link não fornecido">Indisponível</span>`
           }
+          ${link.hasInspectionList 
+            ? `<button class="btn-link secondary inspection-list-btn" aria-label="Ver lista de inspeções">Lista de Inspeções</button>`
+            : ''
+          }
         </div>
       `;
     }
@@ -181,6 +212,88 @@ function renderSeguranca() {
         icon.textContent = '▼';
         text.textContent = 'Ver opções';
         card.style.minHeight = '140px';
+      }
+    });
+  });
+  
+  // Event listener para botões de lista de inspeções
+  document.querySelectorAll('.inspection-list-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      showInspectionModal();
+    });
+  });
+}
+
+function showInspectionModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Lista de Inspeções</h3>
+        <button class="modal-close" aria-label="Fechar">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="search" id="inspection-search" placeholder="Buscar inspeção..." class="inspection-search" />
+        <div class="inspection-list">
+          ${inspectionList.map(insp => `
+            <div class="inspection-item" data-search="${insp.code.toLowerCase()} ${insp.name.toLowerCase()}">
+              <div class="inspection-info">
+                <strong>${insp.code}</strong>
+                <span>${insp.name}</span>
+              </div>
+              <button class="btn-copy" data-code="${insp.code}" title="Copiar código">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                Copiar
+              </button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Fechar modal
+  modal.querySelector('.modal-close').addEventListener('click', () => {
+    modal.remove();
+  });
+  
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
+  
+  // Busca dentro do modal
+  const searchInput = modal.querySelector('#inspection-search');
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase();
+    modal.querySelectorAll('.inspection-item').forEach(item => {
+      const searchText = item.dataset.search || '';
+      item.style.display = searchText.includes(query) ? 'flex' : 'none';
+    });
+  });
+  
+  // Copiar código
+  modal.querySelectorAll('.btn-copy').forEach(btn => {
+    btn.addEventListener('click', async function() {
+      const code = this.dataset.code;
+      try {
+        await navigator.clipboard.writeText(code);
+        this.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Copiado!';
+        this.style.background = '#28a745';
+        setTimeout(() => {
+          this.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copiar';
+          this.style.background = '';
+        }, 2000);
+      } catch (err) {
+        alert('Erro ao copiar: ' + err);
       }
     });
   });
