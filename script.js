@@ -105,6 +105,13 @@ const segurancaLinks = [
     tag: 'GESTÃO'
   },
   {
+    titulo: 'App Tutoria',
+    descricao: 'Aplicativo de gestão de tutoria e acompanhamento.',
+    url: 'https://apps.powerapps.com/play/e/default-7893571b-6c2c-4cef-b4da-7d4b266a0626/a/26c4559c-dc51-4085-836c-19f1f69ca32e?tenantId=7893571b-6c2c-4cef-b4da-7d4b266a0626&hint=8415682f-7cf4-48e0-b8d7-3f41f1bc423b&sourcetime=1710955843781&source=portal',
+    categoria: 'Aplicativo',
+    tag: 'ROTINA'
+  },
+  {
     titulo: 'Painel de Inspeções',
     descricao: 'Dashboard de acompanhamento de inspeções realizadas.',
     url: 'https://app.powerbi.com/groups/me/apps/f1e0a66d-7fb8-481d-837f-121fc3dc59be/reports/4b150e89-01be-4a50-b790-2db09cc797a9/ae22d23fed00c17264bb?ctid=7893571b-6c2c-4cef-b4da-7d4b266a0626&experience=power-bi',
