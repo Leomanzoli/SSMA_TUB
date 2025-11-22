@@ -515,8 +515,8 @@ const scaleConfig = {
     night: ['A', 'A', 'B', 'B', 'C', 'C', 'D', 'D']
   },
   safety: {
-    day: ['C', 'B', 'B', 'C', 'D', 'A', 'A', 'D'], // Alterna a cada 2 dias
-    night: ['A', 'D', 'D', 'A', 'B', 'C', 'C', 'B']
+    day: ['3', '2', '2', '3', '4', '1', '1', '4'], // Alterna a cada 2 dias (A=1, B=2, C=3, D=4)
+    night: ['1', '4', '4', '1', '2', '3', '3', '2']
   }
 };
 
