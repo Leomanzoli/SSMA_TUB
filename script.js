@@ -506,12 +506,15 @@ function showArtModal() {
   });
 }
 
-// Configuração das escalas (data de referência: 22/11/2025)
-// Padrão Segurança (4 dias de ciclo): 2 dias 3/1, 2 dias 2/4, repete
+// Configuração das escalas
+// Referências:
+//   Operação: mantém referência em 21/11 também sem quebrar sequência (C,C,D,D,A,A,B,B)
+//   Segurança: 22/11 é o SEGUNDO dia do par 3/1, portanto referência precisa ser 21/11 para que índice 1 seja 22/11.
+// Padrão Segurança (ciclo de 4 dias): 2 dias 3/1, 2 dias 2/4, repete.
 // Amostragem confirmada:
-// 22-23/11: dia=3 noite=1 | 24-25/11: dia=2 noite=4 | 26-27/11: dia=3 noite=1 | 28-29/11: dia=2 noite=4 ...
+// 21-22/11: dia=3 noite=1 | 23-24/11: dia=2 noite=4 | 25-26/11: dia=3 noite=1 | 27-28/11: dia=2 noite=4 | 29-30/11: dia=3 noite=1 ...
 const scaleConfig = {
-  referenceDate: new Date(2025, 10, 22), // 22 de novembro de 2025
+  referenceDate: new Date(2025, 10, 21), // 21 de novembro de 2025 (ajuste para segurança)
   operation: {
     morning: ['C', 'C', 'D', 'D', 'A', 'A', 'B', 'B'], // Ciclo de 8 dias
     night: ['A', 'A', 'B', 'B', 'C', 'C', 'D', 'D']
