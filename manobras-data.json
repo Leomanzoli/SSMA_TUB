@@ -1,7 +1,39 @@
 {
-  "ultima_atualizacao": "2025-11-22T14:00:24.261883",
-  "total": 4,
+  "ultima_atualizacao": "2025-11-22T14:19:26.473856",
+  "total": 8,
   "manobras": [
+    {
+      "nome": "NAVIOS FULVIA",
+      "data": "23/11/2025",
+      "hora": "06:00",
+      "manobra": "SAIDA",
+      "berco": "TUBP1N",
+      "situacao": "PREVISTA"
+    },
+    {
+      "nome": "NAVIOS STELLAR",
+      "data": "23/11/2025",
+      "hora": "06:30",
+      "manobra": "ENTRADA",
+      "berco": "TUBP1N",
+      "situacao": "PREVISTA"
+    },
+    {
+      "nome": "YUAN BAO HAI",
+      "data": "24/11/2025",
+      "hora": "07:00",
+      "manobra": "SAIDA",
+      "berco": "TUBP02",
+      "situacao": "PREVISTA"
+    },
+    {
+      "nome": "CAMELLIA DREAM",
+      "data": "24/11/2025",
+      "hora": "07:40",
+      "manobra": "ENTRADA",
+      "berco": "TUBP02",
+      "situacao": "PREVISTA"
+    },
     {
       "nome": "EMERALD DINGHAI",
       "data": "25/11/2025",
