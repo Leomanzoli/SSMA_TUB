@@ -1,6 +1,6 @@
 {
-  "ultima_atualizacao": "2025-11-22T20:52:34.075250-03:00",
-  "total": 8,
+  "ultima_atualizacao": "2025-11-22T23:03:59.177263-03:00",
+  "total": 7,
   "manobras": [
     {
       "nome": "NAVIOS FULVIA",
@@ -11,11 +11,11 @@
       "situacao": "PREVISTA"
     },
     {
-      "nome": "NAVIOS STELLAR",
+      "nome": "GOOD WISH",
       "data": "23/11/2025",
-      "hora": "06:05",
+      "hora": "06:40",
       "manobra": "ENTRADA",
-      "berco": "TUBP1N",
+      "berco": "TUBP1S",
       "situacao": "PREVISTA"
     },
     {
@@ -48,14 +48,6 @@
       "hora": "17:00",
       "manobra": "ENTRADA",
       "berco": "PRMCV1",
-      "situacao": "PREVISTA"
-    },
-    {
-      "nome": "PELAGIA",
-      "data": "25/11/2025",
-      "hora": "22:00",
-      "manobra": "ENTRADA",
-      "berco": "TUBP1S",
       "situacao": "PREVISTA"
     },
     {
